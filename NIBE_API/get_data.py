@@ -3,15 +3,14 @@ from json import dump, load
 from requests_oauthlib import OAuth2Session
 
 HTTP_STATUS_OK = 200
-
+client_id = '' # (32 hex digits)
+client_secret = '' # (44 characters)
 token_filename= 'NIBE_API/.NIBE_Uplink_API_Token.json'
 
 def token_saver(token):
     with open(token_filename, 'w') as token_file:
         dump(token, token_file)
 
-client_id = '' # (32 hex digits)
-client_secret = '' # (44 characters)
 
 token_url = 'https://api.nibeuplink.com/oauth/token'
 
@@ -22,19 +21,12 @@ extra_args = {'client_id': client_id, 'client_secret': client_secret}
 
 nibeuplink = OAuth2Session(client_id=client_id, token=token, auto_refresh_url=token_url, auto_refresh_kwargs=extra_args, token_updater=token_saver)
 
-response = nibeuplink.get('https://api.nibeuplink.com/api/v1/systems')
+response = nibeuplink.get('https://api.nibeuplink.com/api/v1/systems/138372/serviceinfo/categories/status?categoryId=STATUS')
 if response.status_code == HTTP_STATUS_OK:
-    ##print(response.json())
-    count = response.json()['numItems']
-    print('Total of ' + str(count) + ' system(s) returned by the API query')
-
-    objects = response.json()['objects']
+    objects = response.json()
     #print(objects)
-    for object in objects:
-        #print(object)
-        print('System Id:   ' + str(object['systemId']))
-        print('System Name: ' + str(object['name']))
-        print('Sikkerhedslevel: ' + str(object['securityLevel']))
+    print(f'Udendørs temperatur {objects[1]["displayValue"]}')
+    print(f'Vandets temperatur {objects[3]["displayValue"]}')
 else:
     print('HTTP Status: ' + str(response.status_code))
     print(response.text)

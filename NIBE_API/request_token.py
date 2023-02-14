@@ -3,13 +3,13 @@ from json import dump
 from requests_oauthlib import OAuth2Session
 
 
-client_id = 'Få id fra Mahtias eller API' # (32 hex digits)
-client_secret = 'Få secret fra Mahtias eller API' # (44 characters)
+client_id = '' # (32 hex digits)
+client_secret = '' # (44 characters)
 
 
 redirect_url = 'https://ramlov.org/nibeuplink/oauth2callback/index.php'
 
-query_scope = 'READSYSTEM'
+query_scope = 'WRITESYSTEM'
 unique_state = 'STATESTRING'
 token_url = 'https://api.nibeuplink.com/oauth/token'
 authorize_url = 'https://api.nibeuplink.com/oauth/authorize'
@@ -33,7 +33,6 @@ if token['token_type'] != 'bearer':
     raise SystemExit('Invalid Token received; exiting')
 
 
-home_dir = path.expanduser('~')
 token_filename = '.NIBE_Uplink_API_Token.json'
 with open(token_filename, 'w') as token_file:
     dump(token, token_file)
