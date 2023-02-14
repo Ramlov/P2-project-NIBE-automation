@@ -1,7 +1,7 @@
 <?php
 
 echo "https://www.ramlov.org/nibeuplink/oauth2callback/index.php ";
-echo "OAuth2 Callback Script<br>";
+echo "OAuth2 Callback Script <br>";
 
 if ( isset( $_GET['code'] ) ) {
     echo "Parameter 'code' found, value is: ";
