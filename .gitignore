@@ -2,3 +2,5 @@
 NIBE_API/id_secret.txt
 NIBE_API/.NIBE_Uplink_API_Token.json
 test.py
+Database_connect.py
+energy/database.txt
