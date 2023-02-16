@@ -38,5 +38,5 @@ with open(token_filename, 'w') as token_file:
     dump(token, token_file)
 
 
-print('Token saved to file ' + token_filename)
+print('Token saved to file  ' + token_filename)
 
