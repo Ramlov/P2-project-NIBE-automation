@@ -5,3 +5,4 @@ test.py
 Database_connect.py
 energy/database.txt
 NIBE_API/request_token.py
+.NIBE_Uplink_API_Token.json
