@@ -31,10 +31,23 @@ def fees():
     df.iloc[21:24, df.columns.get_loc("DKK_per_kWh")] +=0.6379
     df.to_csv("data.csv", index=False)
 
-
+def sort_price():
+    df = pd.read_csv('data.csv')
+    sorted_df = df.sort_values('DKK_per_kWh')
+    num_rows = len(sorted_df)
+    third = num_rows // 3
+    lowest = sorted_df.iloc[:third]
+    middle = sorted_df.iloc[third:-third]
+    highest = sorted_df.iloc[-third:]
+    df['turn_on'] = ''
+    df.loc[lowest.index, 'turn_on'] = 'True'
+    df.loc[middle.index, 'turn_on'] = 'Normal'
+    df.loc[highest.index, 'turn_on'] = 'False'
+    df.to_csv('data.csv', index=False)
 
 collect_energy_prices()
 fees()
+sort_price()
 #calc_good_price()
 
 
