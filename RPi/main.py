@@ -25,4 +25,5 @@ while True:
         pd.detect_pulse()
     except PulseDetector.DatabaseConnectionError as e:
         print("An error occured - Reconnicting network")
+        print("PulseDetector.DatabaseConnectionError catched: {}".format(e))
         connect()

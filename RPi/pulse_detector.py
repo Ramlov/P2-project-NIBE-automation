@@ -48,14 +48,17 @@ class PulseDetector:
                 current_time = datetime.now(self.local_tz)
                 query = "INSERT INTO pulse_data (time, value) VALUES (%s, %s)"
                 values = (current_time, 1)
-                while True:
-                    try:
-                        self.cursor.execute(query, values)
-                        self.db.commit()
-                        self.discord.post(content="Pulse detected!")
-                        print("Pulse detected at {}".format(current_time))
-                        break
-                    except:
-                        print("Lost connection to database, reconnecting...")
-                        raise self.DatabaseConnectionError("Lost Connection")
+
+                try:
+                    self.cursor.execute(query, values)
+                    self.db.commit()
+                    self.discord.post(content="Pulse detected!")
+                    print("Pulse detected at {}".format(current_time))
+                except KeyboardInterrupt as e:
+                    print("[{}] KeyboardInterrupt catched: {}".format(datetime.now(self.local_tz), e))
+                    raise e
+                except BaseException as e:
+                    print("Lost connection to database, reconnecting...")
+                    print("[{}] BaseException catched: {}".format(datetime.now(self.local_tz), e))
+                    raise self.DatabaseConnectionError("Lost Connection, error: {}".format(e))
                 time.sleep(0.1)
