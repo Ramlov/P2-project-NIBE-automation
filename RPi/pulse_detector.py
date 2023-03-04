@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import mysql.connector
 import pytz
+import logging
 from datetime import datetime
 from discordwebhook import Discord
 
@@ -58,6 +59,7 @@ class PulseDetector:
                     print("[{}] KeyboardInterrupt catched: {}".format(datetime.now(self.local_tz), e))
                     raise e
                 except BaseException as e:
+                    logging.exception(e)  # print the traceback of the exception
                     print("Lost connection to database, reconnecting...")
                     print("[{}] BaseException catched: {}".format(datetime.now(self.local_tz), e))
                     raise self.DatabaseConnectionError("Lost Connection, error: {}".format(e))
