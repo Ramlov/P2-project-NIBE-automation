@@ -4,6 +4,21 @@ import mysql.connector
 import pytz
 from datetime import datetime
 from discordwebhook import Discord
+import os
+import logging
+
+'''Setup stuff for loggin'''
+log_dir = "./logs"
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir)
+
+log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
+log_path = os.path.join(log_dir, log_filename)
+
+logging.basicConfig(filename=log_path, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+
 
 
 class PulseDetector:
@@ -28,7 +43,7 @@ class PulseDetector:
         )
         self.cursor = self.db.cursor()
         self.cursor.execute("CREATE TABLE IF NOT EXISTS pulse_data (time TIMESTAMP, value INT)")
-        print("Database ready!")
+        logging.info("Database ready! - Connection successful")
         self.discord.post(content="Database ready! - STATUS: CONNECTED")
 
     def detect_pulse(self):
@@ -37,6 +52,7 @@ class PulseDetector:
         GPIO.setup(pulse_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         while True:
+            logging.info('Waiting for rising edge on GPIO pin')
             if not self.pulse_detected:
                 self.pulse_detected = GPIO.input(pulse_pin) == 1
             else:
@@ -45,17 +61,19 @@ class PulseDetector:
                 else:
                     continue
 
-                current_time = datetime.now(self.local_tz)
+                current_time = datetime.datetime.now(self.local_tz)
                 query = "INSERT INTO pulse_data (time, value) VALUES (%s, %s)"
                 values = (current_time, 1)
                 while True:
+                    logging.info('Loop to insert data to database')
                     try:
                         self.cursor.execute(query, values)
                         self.db.commit()
                         self.discord.post(content="Pulse detected!")
-                        print("Pulse detected at {}".format(current_time))
+                        logging.info("Pulse detected at {}".format(current_time))
+                        logging.info('Breaking loop, and waiting for pin input')
                         break
                     except:
-                        print("Lost connection to database, reconnecting...")
+                        logging.error("Lost connection to database, reconnecting...")
                         raise self.DatabaseConnectionError("Lost Connection")
                 time.sleep(0.1)

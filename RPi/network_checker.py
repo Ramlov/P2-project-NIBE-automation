@@ -1,6 +1,24 @@
 import subprocess
 import time
 from discordwebhook import Discord
+import os
+import logging
+import requests
+import datetime
+
+'''Setup stuff for loggin'''
+log_dir = "./logs"
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir)
+
+log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
+log_path = os.path.join(log_dir, log_filename)
+
+logging.basicConfig(filename=log_path, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+
+
 
 class InternetChecker:
     def __init__(self, discord_webhook_url, ssid, psk):
@@ -8,29 +26,38 @@ class InternetChecker:
         self.ssid = ssid
         self.psk = psk
 
+    def check_internet(self):
+        try:
+            requests.get('https://www.google.com/', timeout=5)
+            return True
+        except requests.ConnectionError:
+            return False
+
+
     def check_internet_connection(self):
         connected = False
         attempts = 0
 
         while not connected and attempts < 10:
-            result = subprocess.run(['ping', '-c', '1', 'www.google.com'], stdout=subprocess.PIPE)
+            #result = subprocess.run(['ping', '-c', '1', 'www.google.com'], stdout=subprocess.PIPE)
 
-            if result.returncode == 0:
+            if check_internet():
                 self.discord.post(content="Internet Connected - STATUS: OK")
-                print("OK - Internet connected")
+                logging.info(f'OK - Internet connected')
                 connected = True
             else:
                 attempts += 1
-                print("Connection attempt {} failed".format(attempts))
+                logging.warning("Connection attempt {} failed".format(attempts))
                 self.reconnect_wifi()
 
         if not connected:
-            print("Didn't connect - Retrying")
+            logging.error("Didn't connect - Retrying")
 
         return connected
 
 
     def reconnect_wifi(self):
+        logging.info('Trying to reconnect wifi')
         subprocess.run(["sudo", "wpa_cli", "-i", "wlan0", "terminate"])
         subprocess.run(["sudo", "ip", "link", "set", "wlan0", "down"])
         subprocess.run(["sudo", "ip", "link", "set", "wlan0", "up"])
@@ -41,12 +68,12 @@ class InternetChecker:
             output = subprocess.check_output(["sudo", "iwgetid", "wlan0"])
             if self.ssid in str(output):
                 connected = True
-                print("Connected")
+                logging.info("Connected")
                 return connected
         except:
             pass
         if not connected:
-            print("Connection unsuccessful - Sleeping and trying again")
+            logging.error("Connection unsuccessful - Sleeping and trying again")
             time.sleep(1)
 
         subprocess.run(["sudo", "dhclient", "-v", "wlan0"])

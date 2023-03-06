@@ -1,6 +1,21 @@
 import time
 from network_checker import InternetChecker
 from pulse_detector import PulseDetector
+import os
+import logging
+
+'''Setup stuff for loggin'''
+log_dir = "./logs"
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir)
+
+log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
+log_path = os.path.join(log_dir, log_filename)
+
+logging.basicConfig(filename=log_path, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+
 
 checker = InternetChecker(discord_webhook_url="", ssid="", psk="")
 
@@ -11,7 +26,7 @@ def connect():
     while not connected:
         connected = checker.check_internet_connection()
         if not connected:
-           print("Failed to connect")
+           logging.warning('Failed to connect to network - Retrying')
            time.sleep(10)
 
 
@@ -20,9 +35,9 @@ connect()
 
 while True:
     try:
-        print("Detecting pulse")
+        logging.info('Going into pulse detection loop')
         pd.connect_db()
         pd.detect_pulse()
     except PulseDetector.DatabaseConnectionError as e:
-        print("An error occured - Reconnicting network")
+        logging.error(f'An error occured - Reconnicting network - Possible errorcode: {e}')
         connect()
