@@ -1,0 +1,12 @@
+2023-03-04 18:01:38,203 - DEBUG - Starting new HTTPS connection (1): www.google.com:443
+2023-03-04 18:01:38,205 - WARNING - Connection attempt 1 failed
+2023-03-04 18:01:38,206 - INFO - Trying to reconnect wifi
+2023-03-04 18:01:38,990 - ERROR - Connection unsuccessful - Sleeping and trying again
+2023-03-04 18:02:41,078 - DEBUG - Starting new HTTPS connection (1): www.google.com:443
+2023-03-04 18:02:41,080 - WARNING - Connection attempt 2 failed
+2023-03-04 18:02:41,080 - INFO - Trying to reconnect wifi
+2023-03-04 18:02:41,846 - ERROR - Connection unsuccessful - Sleeping and trying again
+2023-03-04 18:03:43,874 - DEBUG - Starting new HTTPS connection (1): www.google.com:443
+2023-03-04 18:03:43,876 - WARNING - Connection attempt 3 failed
+2023-03-04 18:03:43,876 - INFO - Trying to reconnect wifi
+2023-03-04 18:03:44,633 - ERROR - Connection unsuccessful - Sleeping and trying again
