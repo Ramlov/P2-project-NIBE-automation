@@ -10,6 +10,7 @@ def getdate():
 
 def collect_energy_prices():
     dates = getdate()
+    print(dates)
     url = f'https://www.elprisenligenu.dk/api/v1/prices/{dates[0]}/{dates[1]}-{dates[2]}_DK1.json'
     response = requests.get(url)
     if response.status_code == 200:
@@ -17,10 +18,6 @@ def collect_energy_prices():
         df = pd.DataFrame(data)
         df.to_csv('data.csv', index=False)
 
-def calc_good_price():
-    df = pd.read_csv("data.csv")
-    df_sum = df["DKK_per_kWh"].sum()
-    print(df_sum/24)
 
 def fees():
     data="data.csv"

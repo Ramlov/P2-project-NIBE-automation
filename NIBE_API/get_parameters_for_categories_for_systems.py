@@ -12,7 +12,6 @@ def token_saver(token):
 
 client_id = '' # (32 hex digits)
 client_secret = '' # (44 characters)
-
 token_url = 'https://api.nibeuplink.com/oauth/token'
 
 

@@ -24,9 +24,9 @@ nibeuplink = OAuth2Session(client_id=client_id, token=token, auto_refresh_url=to
 response = nibeuplink.get('https://api.nibeuplink.com/api/v1/systems/138372/serviceinfo/categories/status?categoryId=STATUS')
 if response.status_code == HTTP_STATUS_OK:
     objects = response.json()
-    #print(objects)
+    print(objects)
     print(f'Udendørs temperatur {objects[1]["displayValue"]}')
-    print(f'Vandets temperatur {objects[3]["displayValue"]}')
+    #print(f'Vandets temperatur {objects[3]["displayValue"]}')
 else:
     print('HTTP Status: ' + str(response.status_code))
     print(response.text)

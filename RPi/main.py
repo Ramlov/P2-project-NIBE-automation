@@ -4,6 +4,7 @@ from pulse_detector import PulseDetector
 import os
 import logging
 import datetime
+import threading
 
 '''Setup stuff for logging'''
 log_dir = "./logs"
@@ -37,8 +38,15 @@ connect()
 while True:
     try:
         logging.info('Going into pulse detection loop')
-        pd.connect_db()
-        pd.detect_pulse()
+        pulse_detection_thread = threading.Thread(target=pd.collect_pulse)
+        pulse_detection_thread.start()
+
+        pulse_submission_thread = threading.Thread(target=pd.submit_pulse_count)
+        pulse_submission_thread.start()
+
+        # Wait for threads to finish
+        pulse_detection_thread.join()
+        pulse_submission_thread.join()
     except PulseDetector.DatabaseConnectionError as e:
         logging.error(f'An error occured - Reconnicting network - Possible errorcode: {e}')
         connect()
