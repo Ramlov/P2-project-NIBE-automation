@@ -1,25 +1,24 @@
 import RPi.GPIO as GPIO
 import time
 import mysql.connector
-import pytz
-from datetime import datetime
+import datetime
 from discordwebhook import Discord
 import os
 import logging
 
-'''Setup stuff for loggin'''
+'''Setup stuff for logging'''
 log_dir = "./logs"
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
-log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
+# Get the name of the file from which the log is created
+file_name = os.path.splitext(os.path.basename(__file__))[0]
+
+# Create log file name with current datetime and the file name
+log_filename = file_name + datetime.datetime.now().strftime("_%Y-%m-%d_%H-%M-%S") + ".log"
 log_path = os.path.join(log_dir, log_filename)
 
 logging.basicConfig(filename=log_path, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
-
-
-
 
 class PulseDetector:
     class DatabaseConnectionError(Exception):
@@ -31,7 +30,8 @@ class PulseDetector:
         self.db_password = db_password
         self.db_name = db_name
         self.discord = Discord(url=discord_webhook_url)
-        self.local_tz = pytz.timezone('Europe/Copenhagen')
+        utc_offset = datetime.timedelta(hours=1)  # Denmark is UTC+1
+        self.local_tz = datetime.timezone(utc_offset)
         self.pulse_detected = False
 
     def connect_db(self):
@@ -51,8 +51,8 @@ class PulseDetector:
         pulse_pin = 24
         GPIO.setup(pulse_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+        logging.info('Going into loop, waiting for rising edge on GPIO pin')
         while True:
-            logging.info('Waiting for rising edge on GPIO pin')
             if not self.pulse_detected:
                 self.pulse_detected = GPIO.input(pulse_pin) == 1
             else:
@@ -73,7 +73,8 @@ class PulseDetector:
                         logging.info("Pulse detected at {}".format(current_time))
                         logging.info('Breaking loop, and waiting for pin input')
                         break
-                    except:
+                    except Exception as e:
+                        logging.critical("{} {}".format(file_name, str(e)))
                         logging.error("Lost connection to database, reconnecting...")
                         raise self.DatabaseConnectionError("Lost Connection")
                 time.sleep(0.1)

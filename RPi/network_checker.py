@@ -3,22 +3,22 @@ import time
 from discordwebhook import Discord
 import os
 import logging
-import requests
+import socket
 import datetime
 
-'''Setup stuff for loggin'''
+'''Setup stuff for logging'''
 log_dir = "./logs"
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
-log_filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log")
+# Get the name of the file from which the log is created
+file_name = os.path.splitext(os.path.basename(__file__))[0]
+
+# Create log file name with current datetime and the file name
+log_filename = file_name + datetime.datetime.now().strftime("_%Y-%m-%d_%H-%M-%S") + ".log"
 log_path = os.path.join(log_dir, log_filename)
 
 logging.basicConfig(filename=log_path, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
-
-
-
 
 class InternetChecker:
     def __init__(self, discord_webhook_url, ssid, psk):
@@ -28,9 +28,16 @@ class InternetChecker:
 
     def check_internet(self):
         try:
-            requests.get('https://www.google.com/', timeout=5)
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            s.settimeout(5)
+            s.connect(('8.8.8.8', 53))
+            s.close()
+
+            socket.getaddrinfo('www.google.com', 443)
+            print("Connected")
             return True
-        except requests.ConnectionError:
+        except:
             return False
 
 
@@ -39,9 +46,7 @@ class InternetChecker:
         attempts = 0
 
         while not connected and attempts < 10:
-            #result = subprocess.run(['ping', '-c', '1', 'www.google.com'], stdout=subprocess.PIPE)
-
-            if check_internet():
+            if self.check_internet():
                 self.discord.post(content="Internet Connected - STATUS: OK")
                 logging.info(f'OK - Internet connected')
                 connected = True

@@ -1,8 +1,0 @@
-2023-03-04 17:56:25,846 - DEBUG - Starting new HTTPS connection (1): discord.com:443
-2023-03-04 17:56:26,251 - DEBUG - https://discord.com:443 "POST /api/webhooks/1075749180552794143/bWkMo8ejqchEaK9qqsMDTj1rnb-jYi6pU8mQJf3zTs040vOrBeghaBF52zsBD-YH65RI HTTP/1.1" 204 0
-2023-03-04 17:56:26,256 - INFO - OK - Internet connected
-2023-03-04 17:56:26,257 - INFO - Going into pulse detection loop
-2023-03-04 17:56:26,466 - INFO - Database ready! - Connection successful
-2023-03-04 17:56:26,469 - DEBUG - Starting new HTTPS connection (1): discord.com:443
-2023-03-04 17:56:26,936 - DEBUG - https://discord.com:443 "POST /api/webhooks/1075749180552794143/bWkMo8ejqchEaK9qqsMDTj1rnb-jYi6pU8mQJf3zTs040vOrBeghaBF52zsBD-YH65RI HTTP/1.1" 204 0
-2023-03-04 17:56:26,941 - INFO - Going into loop, waiting for rising edge on GPIO pin
