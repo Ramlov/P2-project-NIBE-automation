@@ -34,7 +34,7 @@ class EnergyPriceCollector:
     def fees(self):
         df = pd.read_csv(self.data_file)
         date = int(self.getdate()[1])
-        if date < 3 or date > 9:
+        if date <= 3 or date > 9:
             print("un3")
             df.iloc[0:6, df.columns.get_loc("DKK_per_kWh")] +=0.2127
             df.iloc[6:17, df.columns.get_loc("DKK_per_kWh")] +=0.6379
