@@ -49,6 +49,7 @@ class PulseDetector:
         self.discord.post(content="Database ready! - STATUS: CONNECTED")
 
     def collect_pulse(self):
+        GPIO.setmode(GPIO.BCM)
         pulse_pin = 24
         GPIO.setup(pulse_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
