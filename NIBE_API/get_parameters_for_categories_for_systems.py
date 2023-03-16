@@ -4,7 +4,7 @@ from requests_oauthlib import OAuth2Session
 
 HTTP_STATUS_OK = 200
 
-token_filename= 'NIBE_API/.NIBE_Uplink_API_Token.json'
+token_filename= '.NIBE_Uplink_API_Token.json'
 
 def token_saver(token):
     with open(token_filename, 'w') as token_file:

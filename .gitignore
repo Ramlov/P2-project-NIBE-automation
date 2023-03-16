@@ -9,3 +9,4 @@ NIBE_API/request_token.py
 secret/database.txt
 secret/id_secret.txt
 secret/webhook.txt
+NIBE_API/.NIBE_Uplink_API_Token_PUT.json

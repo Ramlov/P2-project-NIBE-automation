@@ -23,7 +23,7 @@ nibeuplink = OAuth2Session(client_id=client_id, token=token, auto_refresh_url=to
 
 query = {
     'settings':{
-    '47011':'0'
+    '47011':'10'
     }
 }
 url = 'https://api.nibeuplink.com/api/v1/systems/138372/parameters/'
