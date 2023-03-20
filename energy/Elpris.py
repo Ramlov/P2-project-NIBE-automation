@@ -4,7 +4,7 @@ import requests
 class Elpris:
 
     def get_time(self):
-      """ Gets the current time of the device running the code, returns today(today's date), hour(current hour) and hour_next(current hour + 1) """
+        """ Gets the current time of the device running the code, returns today(today's date), hour(current hour) and hour_next(current hour + 1) """
         today = date.today()
         now = datetime.now()
         hour = now.strftime("%H:00")
