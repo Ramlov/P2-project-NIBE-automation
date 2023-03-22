@@ -4,21 +4,15 @@ import csv
 import pandas as pd
 
 class EnergyPriceCollector:
-
     def __init__(self):
         self.data_file = 'data.csv'
-    
-    def getdate(self):
-        today = str(date.today())
-        dates = today.split('-')
-        return dates
 
-    #def getdate(self):
-    # #   tomorrow = date.today() + timedelta(days=1)
-    #    tomorrow_str = str(tomorrow)
-    #    dates = tomorrow_str.split('-')
-    #    print(dates)
-    #    return dates
+    def getdate(self):
+        tomorrow = date.today() + timedelta(days=1)
+        tomorrow_str = str(tomorrow)
+        dates = tomorrow_str.split('-')
+        print(dates)
+        return dates
 
     def collect_energy_prices(self):
         dates = self.getdate()
@@ -35,13 +29,11 @@ class EnergyPriceCollector:
         df = pd.read_csv(self.data_file)
         date = int(self.getdate()[1])
         if date <= 3 or date > 9:
-            print("un3")
             df.iloc[0:6, df.columns.get_loc("DKK_per_kWh")] +=0.2127
             df.iloc[6:17, df.columns.get_loc("DKK_per_kWh")] +=0.6379
             df.iloc[17:21, df.columns.get_loc("DKK_per_kWh")] +=1.9135
             df.iloc[21:24, df.columns.get_loc("DKK_per_kWh")] +=0.6379
         elif date > 3:
-            print("ove3")
             df.iloc[0:6, df.columns.get_loc("DKK_per_kWh")] +=0.2127
             df.iloc[6:17, df.columns.get_loc("DKK_per_kWh")] +=0.3189
             df.iloc[17:21, df.columns.get_loc("DKK_per_kWh")] +=0.8292

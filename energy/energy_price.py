@@ -1,16 +1,16 @@
 import requests
-from datetime import date
+from datetime import date, timedelta
 import csv
 import pandas as pd
 
 def getdate():
-    today = str(date.today())
-    dates = today.split('-')
+    tomorrow = date.today() + timedelta(days=1)
+    tomorrow_str = str(tomorrow)
+    dates = tomorrow_str.split('-')
     return dates
 
 def collect_energy_prices():
     dates = getdate()
-    print(dates)
     url = f'https://www.elprisenligenu.dk/api/v1/prices/{dates[0]}/{dates[1]}-{dates[2]}_DK1.json'
     response = requests.get(url)
     if response.status_code == 200:

@@ -86,4 +86,3 @@ while True:
         time_collected = False
     sleep(2)
 
-

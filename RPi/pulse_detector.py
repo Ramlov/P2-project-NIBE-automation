@@ -44,7 +44,7 @@ class PulseDetector:
             database=self.db_name
         )
         self.cursor = self.db.cursor()
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS pulse_data (time TIMESTAMP, value INT)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS pulse_data (time TIMESTAMP, value INT, price FLOAT)")
         logging.info("Database ready! - Connection successful")
         self.discord.post(content="Database ready! - STATUS: CONNECTED")
 
@@ -68,8 +68,9 @@ class PulseDetector:
                 current_pulse_count = self.pulse_count
                 self.pulse_count = 0
             current_time = datetime.datetime.now(self.local_tz)
-            query = "INSERT INTO pulse_data (time, value) VALUES (%s, %s)"
-            values = (current_time, current_pulse_count)
+            current_price = 10
+            query = "INSERT INTO pulse_data (time, value, price) VALUES (%s, %s)"
+            values = (current_time, current_pulse_count, current_price)
             while True:
                 logging.info('Loop to insert data to database')
                 try:
