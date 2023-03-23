@@ -1,47 +1,74 @@
-from datetime import datetime, date, timedelta
 import requests
+from datetime import datetime, date, timedelta
 
-class Elpris:
+class ElectricityPricing:
+    def __init__(self):
+        self.url = "https://api.energidataservice.dk/dataset/Elspotprices"
+        self.price_areas = ["DK1"]
+        self.vat_rate = 0.25
+        self.tarif_1_rate = 1.05619
+        self.tarif_2_rate = 0.432225
+        self.elafgift_rate = 0.008
+        self.energinet_rate = (0.058 + 0.054) * 1.25
+        self.electric_company_rate = 0  # <----------------------- Vi skal finde ud af, hvad Preb betaler pr kWh til Norlys
 
     def get_time(self):
-        """ Gets the current time of the device running the code, returns today(today's date), hour(current hour) and hour_next(current hour + 1) """
-        today = date.today()
-        now = datetime.now()
-        hour = now.strftime("%H:00")
-        hour_next = (now + timedelta(hours=1)).strftime("%H:00")
-        return today, hour, hour_next
+        try:
+            today = date.today()
+            now = datetime.now()
+            hour = now.strftime("%H:00")
+            hour_next = (now + timedelta(hours=1)).strftime("%H:00")
+            return today, hour, hour_next
+        except Exception as e:
+            print(f"An error occurred while getting time: {e}")
+            return None, None, None
 
-    def get_pricedata(self) -> list:
-        """ Outputs a list with today's raw energy price in kr./kWh without VAT """
-        today, hour, hour_next = self.get_time()
-        URL=f"https://api.energidataservice.dk/dataset/Elspotprices?start={today}T{hour}&end={today}T{hour_next}&filter={{%22PriceArea%22:[%22DK1%22]}}"
-        r = requests.get(URL)
-        pricedata = r.json()
-        pricedata_list = [pricedata["records"][0]["HourDK"], (pricedata["records"][0]["SpotPriceDKK"] / 1000)]
-        return pricedata_list
+    def get_pricedata(self):
+        try:
+            today, hour, hour_next = self.get_time()
+            if not all([today, hour, hour_next]):
+                return 0
+            params = {
+                "start": f"{today}T{hour}",
+                "end": f"{today}T{hour_next}",
+                "filter": f'{{"PriceArea":["{self.price_areas[0]}"]}}'
+            }
+            r = requests.get(self.url, params=params)
+            #print(r)
+            r.raise_for_status()
+            pricedata = r.json()
+            pricedata_list = [pricedata["records"][0]["HourDK"], (pricedata["records"][0]["SpotPriceDKK"] / 1000)]
+            return pricedata_list
+        except Exception as e:
+            print(f"An error occurred while getting price data: {e}")
+            return 0
 
-    def add_fees(self, price_raw, hour, month) -> float:
-        """ Adds VAT, transporttarifs and other things """
-        price_vat = price_raw * 0.25                # Adds VAT to raw electric price
-        price_elafgift = 0.008                      # Adds electric fee (paid to the state)
-        price_energinet = ( 0.058 + 0.054 ) * 1.25  # Adds energi-net fee (paid to the transmission net-company)
-        price_electriccompany = 0                   # Adds fee to the electrical company
-        if 17 <= hour <= 21 and ( 1 <= month <= 3 or 10 <= month <= 12 ): # Adds the transport tarif (paid to the transmission net-company)
-            price_tarif = 1.05619 * 1.25
-        else:
-            price_tarif = 0.432225 * 1.25
-        price_total = (price_raw + price_vat + price_tarif + price_elafgift + price_energinet + price_electriccompany)
-        return price_total
+    def add_to_price(self, price_raw, hour, month):
+        try:
+            price_vat = price_raw * self.vat_rate
+            if 17 <= int(hour) <= 20 and (1 <= int(month) <= 3 or 10 <= int(month) <= 12):
+                price_tarif = self.tarif_1_rate * 1.25           
+            else:
+                price_tarif = self.tarif_2_rate * 1.25
+            price_total = (price_raw + price_vat + price_tarif + self.elafgift_rate + self.energinet_rate + self.electric_company_rate)
+            return price_total
+        except Exception as e:
+            print(f"An error occurred while calculating price: {e}")
+            return 0
 
-    def get_current_price(self) -> float:
-        """ Calls functions and returns the current price for the current hour and add fees and extras """
-        today, hour, null = self.get_time()
-        hour = int(hour[0:2])
-        month = str(today)[5:7]
-        raw_price = self.get_pricedata()[1]
-        total_price = self.add_fees(raw_price, hour, month)        
-        return total_price
+    def get_current_price(self):
+        try:
+            today, hour, null = self.get_time()
+            hour = int(hour[0:2])
+            month = str(today)[5:7]
+            raw_price = self.get_pricedata()[1]
+            total_price = self.add_to_price(raw_price, hour, month)        
+            return total_price
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            return 0
 
-if __name__ == "__main__":
-    price = Elpris()
-    print(price.get_current_price())
+
+ep = ElectricityPricing()
+
+print(ep.get_current_price())
