@@ -33,11 +33,13 @@ class ElectricityPricing:
                 "end": f"{today}T{hour_next}",
                 "filter": f'{{"PriceArea":["{self.price_areas[0]}"]}}'
             }
+            
             r = requests.get(self.url, params=params)
             #print(r)
             r.raise_for_status()
             pricedata = r.json()
-            pricedata_list = [pricedata["records"][0]["HourDK"], (pricedata["records"][0]["SpotPriceDKK"] / 1000)]
+            pricedata_list = [pricedata["records"][0]["HourDK"], (pricedata["records"][0]["SpotPriceEUR"] / 1000)]
+            print(pricedata_list)
             return pricedata_list
         except Exception as e:
             print(f"An error occurred while getting price data: {e}")
@@ -61,7 +63,7 @@ class ElectricityPricing:
             today, hour, null = self.get_time()
             hour = int(hour[0:2])
             month = str(today)[5:7]
-            raw_price = self.get_pricedata()[1]
+            raw_price = (self.get_pricedata()[1]*7.44697)
             total_price = self.add_to_price(raw_price, hour, month)        
             return total_price
         except Exception as e:
