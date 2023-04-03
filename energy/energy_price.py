@@ -64,7 +64,6 @@ class ElectricityPricing:
     def sort_price(self):
         df = pd.read_csv('data.csv')
         sorted_df = df.sort_values('SpotPriceDKK')
-        num_rows = len(sorted_df)
         lowest = sorted_df.iloc[:6]
         highest = sorted_df.iloc[-6:]
         df['turn_on'] = 'Normal'
