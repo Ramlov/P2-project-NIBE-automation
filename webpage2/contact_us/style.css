@@ -1,0 +1,110 @@
+/*Setting font for the whole page*/
+* {
+    font-family: verdana;
+}
+
+/*Navigation Bar*/
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(88, 111, 107);
+  }
+  
+li { /*Creates vertical NavBar*/
+    float: left;
+}
+
+li a { /*Format of NavBar text*/
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover { /*Lightens color when you hover over them in NavBar*/
+    background-color: rgb(123, 142, 126);
+    transition: .15s;
+}
+
+li a.active{ /*Darkens color of menu you are currently active on*/
+    background: rgb(66, 77, 68); /* Menu options in navbar */
+    transition: .15s;
+}
+
+/*Setting the margin for the div's*/
+.margin{ 
+    margin-left: 20px;
+    /*text-align: center; - might wanna do this instead but would like some feedback on it*/
+}
+.heading{
+    font-size: 30px;
+}
+
+/*Contact formula*/
+.contactformula{ 
+    display: inline-block;
+    background-color: rgba(88, 111, 107, .8);
+    border-top-color: rgb(123, 142, 126);
+    border-left-color: rgb(123, 142, 126);
+    border-right-color: rgb(156, 171, 158);
+    border-bottom-color: rgb(156, 171, 158);
+    border-radius: 20px;
+    border-style: inset;
+    color: white;
+    height:300px; 
+    width: 600px; 
+    vertical-align: middle;
+    text-align: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+.nametext, .emailtext{ /*The text "Your Name" and "Your Email"*/
+    display: inline-block;
+    font-size: 14px;
+}
+.name{ /*The Name input box*/
+    font-size: 14px;
+    height: 20px;
+    width: 220px;
+    margin-right: 260px;
+    padding-left: 6px;
+}
+.email{ /*The Email input box*/
+    font-size: 14px;
+    height: 20px;
+    width: 220px;
+    margin-right: 260px;
+    margin-left: 2px;
+    padding-left: 6px;
+}
+
+.problemtext{
+    font-size: 14px;
+}
+.problem{
+    width:560px;
+    height:100px;
+    font-size: 14px;
+    padding-left: 6px;
+}
+.submitbutton{
+    display: block;
+    background-color:rgb(88, 111, 107);
+    color: white;
+    border-radius: 6px;
+    margin-top: 4px;
+    transition: 0.15s;
+}
+.submitbutton:hover{
+    background-color: rgb(123, 142, 126);
+}
+
+.submitbutton:active{
+    background-color: rgb(66, 77, 68);
+}
+
+
