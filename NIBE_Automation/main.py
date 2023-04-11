@@ -34,9 +34,9 @@ def gettime():
     return(current_time)
 
 def getstatus(index):
-    df = pd.read_csv('data.csv')
+    df = pd.read_csv('combineddata.csv')
     try:
-        value = df['turn_on'].iloc[index]
+        value = df['TurnOn'].iloc[index]
         return(value)
     except Exception as e:
         return(e)
@@ -44,44 +44,36 @@ def getstatus(index):
 
 url = 'https://api.nibeuplink.com/api/v1/systems/138372/parameters/'
 
-time_collected = True
-
-while True:
-    time = int(gettime())
-    status = getstatus(time)
-    print("Current time is ", time)
-    if status == "True":
-        query = {
-            'settings':{
-            '47011':'10'
-            }
+time = int(gettime())
+status = getstatus(time)
+print(status)
+print("Current time is ", time)
+if status == "True":
+    query = {
+        'settings':{
+        '47011':'10'
         }
-        print("Heat pump set to: 10")
-    elif status == "False":
-        query = {
-            'settings':{
-            '47011':'-10'
-            }
+    }
+    print("Heat pump set to: 10")
+elif status == "False":
+    query = {
+        'settings':{
+        '47011':'-10'
         }
-        print("Heat pump set to: -10")
-    elif status == "Normal":
-        query = {
-            'settings':{
-            '47011':'0'
-            }
+    }
+    print("Heat pump set to: -10")
+elif status == "Normal":
+    query = {
+        'settings':{
+        '47011':'0'
         }
-        print("Heat pump set to: 0")
-    response = nibeuplink.put(url, json=query)
-    if response.status_code == HTTP_STATUS_OK:
-        print("HTTP Status: OK", "\n200")
-    else:
-        print('HTTP Status: ' + str(response.status_code))
-        print(response.text)
-    if time == 20 and time_collected == False:
-        price_collector.collect_energy_prices()
-        print("Hentet nye priser")
-        time_collected = True
-    if time == 21 and time_collected == True:
-        time_collected = False
-    sleep(5*60)
+    }
+    print("Heat pump set to: 0")
+response = nibeuplink.put(url, json=query)
+if response.status_code == HTTP_STATUS_OK:
+    print("HTTP Status: OK", "\n200")
+else:
+    print('HTTP Status: ' + str(response.status_code))
+    print(response.text)
+sleep(5*60)
 

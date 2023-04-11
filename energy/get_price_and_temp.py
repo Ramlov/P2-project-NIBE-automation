@@ -162,6 +162,8 @@ class Combine:
                     df_new.loc[i, ("TurnOn")] = True
                 elif df_new["SpotPriceRelative"][i] == "Normal" and df_new["TemperatureRelative"][i] == "Hot":
                     df_new.loc[i, ("TurnOn")] = True
+                elif df_new["SpotPriceRelative"][i] == "Normal":
+                    df_new.loc[i, ("TurnOn")] = "Normal"
                 else:
                     df_new.loc[i, ("TurnOn")] = False
             df_new.to_csv('combineddata.csv', index=False)
