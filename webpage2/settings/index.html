@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HPS</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body style="background: rgb(213, 213, 215)">  
+        <!--Navigation Bar-->
+        <ul>
+            <li><a href ="../index.html">Home</a></li>
+            <li><a href="../energy_consumption/index.html">Energy Consumption</a></li>
+            <li><a href="../savings/index.html">Savings</a></li>
+            <li><a href="../energy_prices/index.html">Energy Prices</a></li>
+            <li><a href="../heating_schedule/index.html">Heating Schedule</a></li>
+            <li><a class="active" href="./index.html">Settings</a></li>
+            <li><a href="../contact_us/index.html">Contact Us</a></li>
+        </ul>
+
+        <!--The Rest-->
+        <div class="margin">
+            <p class="heading">Settings</p>
+            <p>Here you can find an overview over the data collection points of your heat pump's indoor and outdoor unit.</p>
+            <p>The settings "Hot Water Boost" and "Adjustment for Climate System" are adjustable, rememeber to press submit when you have changed a value.</p>
+
+            <!--Overview-->
+            <div>
+                <p class="subheading">Overview</p>
+                <!--Indoor Temperature-->
+                <div class="valuebox" style="width: 220px">
+                    <p class="valuepara" style="padding-top: 4px">Indoor Temperature:</p>
+                    <p class="valuepara">x</p>
+                </div>
+
+                <!--Outdoor Temperature-->
+                <div class="valuebox" style="width: 220px">
+                    <p class="valuepara" style="padding-top: 4px">Outdoor Temperature:</p>
+                    <p class="valuepara">x</p>
+                </div>
+
+                <!--BT0 Outdoor Temperature-->
+                <div class="valuebox" style="width: 220px">
+                    <p class="valuepara" style="padding-top: 4px">BT0 Outdoor Temperature:</p>
+                    <p class="valuepara">x</p>
+                </div>
+
+                <!--BT0 Outdoor Temperature-->
+                <div class="valuebox" style="width: 220px">
+                    <p class="valuepara" style="padding-top: 4px">Fan Speed:</p>
+                    <p class="valuepara">x</p>
+                </div>
+
+                <!--Hot Water Temperature-->
+                <div class="valuebox" style="width: 220px">
+                    <p class="valuepara" style="padding-top: 4px">Hot Water Temperature:</p>
+                    <p class="valuepara">x</p>
+                </div>
+
+                <!--Fan Speed-->
+                <div class="valuebox" style="width: 220px">
+                    <p class="valuepara" style="padding-top: 4px">Fan Speed:</p>
+                    <p class="valuepara">x</p>
+                </div>
+            </div>
+            
+            <!--Hot water boost-->
+            <div>
+                <!--Current value-->
+                <p class="subheading">Hot Water Boost</p>
+                <div class="valuebox">
+                    <p class="valuepara" style="padding-top: 4px">Current Value:</p>
+                    <p class="valuepara">x</p>
+                </div>
+
+                <!--Slider-->
+                <div class="slidecontainer">
+                    <input type="range" min="0" max="1" value="0" class="slider" id="HotWaterRange"> 
+                    <p class="value">New value: <span id="HotWaterValue"></span></p>                   
+                </div>
+                <script>
+                    let slider = document.getElementById("HotWaterRange");
+                    let output = document.getElementById("HotWaterValue");
+                    output.innerHTML = slider.value;
+                    
+                    slider.oninput = function() {
+                      output.innerHTML = this.value;
+                    }
+                </script>
+
+                <!--Submit button-->
+                <button class="submitbutton">Submit</button>
+            </div>
+
+            <!--47011 - Adjustment of climate system-->
+            <div>
+                <!--Current value-->
+                <p class="subheading">Adjustment for Climate System 1 </p> <!--47011-->
+                <div class="valuebox">
+                    <p class="valuepara" style="padding-top: 4px">Current Value:</p>
+                    <p class="valuepara">x</p>
+                </div>
+
+                <!--Slider-->
+                <div class="slidecontainer">
+                    <input type="range" min="-10" max="10" value="0" class="slider" id="ClimateRange"> 
+                    <p class="value">New value: <span id="ClimateSystemValue"></span></p>                   
+                </div>
+                <script>
+                    let slider2 = document.getElementById("ClimateRange");
+                    let output2 = document.getElementById("ClimateSystemValue");
+                    output2.innerHTML = slider2.value;
+                    
+                    slider2.oninput = function() {
+                      output2.innerHTML = this.value;
+                    }
+                </script>
+
+                <!--Submit button-->
+                <button class="submitbutton">Submit</button>
+            </div>
+        </div>
+    </body>
+</html>
