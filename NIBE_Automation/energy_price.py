@@ -16,8 +16,8 @@ class ElectricityPricing:
 
     def get_time(self):
         try:
-            tomorrow = date.today() + timedelta(days=1)
-            tomorrow2 = date.today() + timedelta(days=2)
+            tomorrow = date.today()
+            tomorrow2 = date.today() + timedelta(days=1)
             hour = "00:00"
             return tomorrow, tomorrow2, hour
         except Exception as e:

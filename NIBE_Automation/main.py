@@ -1,8 +1,9 @@
 import pandas as pd
 from datetime import datetime
 from time import sleep
-from json import dump, load
+from json import dump, load, dumps
 from requests_oauthlib import OAuth2Session
+import requests
 from energy_price import ElectricityPricing
 
 price_collector = ElectricityPricing() 
@@ -74,6 +75,20 @@ if response.status_code == HTTP_STATUS_OK:
     print("HTTP Status: OK", "\n200")
 else:
     print('HTTP Status: ' + str(response.status_code))
-    print(response.text)
-sleep(5*60)
-
+data = {
+        "username": "NIBE Bot",
+        "embeds": [
+            {
+                "title": "The Automator",
+                "color": 5763719,
+                "description": f'Changed temperature! \nResponse from API: Parameter: {response.json()[0]["parameter"]["parameterId"]} Value: {response.json()[0]["parameter"]["displayValue"]} \nTime is now: {time}  \nStatus: {status}',
+                "footer": {
+                    "text": "Author: Ramlov",
+                    "icon_url": "https://avatars.githubusercontent.com/u/17428562?v=4",
+                    "url": "https://github.com/Ramlov"
+                }
+            }
+        ]
+    }
+payload = dumps(data)
+response = requests.post("https://discord.com/api/webhooks/1092461466000576764/TZuzacO5VbowCLekKPDdESvZxK4UBmLVVcNWc9U5J4CuqYXarEVdLB-A02Vu4PRJMtjz", data=payload, headers={"Content-Type": "application/json"})
