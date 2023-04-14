@@ -89,9 +89,10 @@ class ElectricityPricing:
 class Temperature:
     def __init__(self) -> None:
         self.POSITION = {"lat": 56.985460, "long": 9.985583}
-        self.today = (datetime.today()).strftime("%Y-%m-%d")
+        #self.today = (datetime.today()).strftime("%Y-%m-%d")
         self.tomorrow = (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
-        self.API_URL=f"https://api.open-meteo.com/v1/metno?latitude={self.POSITION['lat']}&longitude={self.POSITION['long']}&hourly=temperature_2m&timezone=Europe%2FBerlin&start_date={self.today}&end_date={self.tomorrow}"
+        self.tomorrow2 = (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+        self.API_URL=f"https://api.open-meteo.com/v1/metno?latitude={self.POSITION['lat']}&longitude={self.POSITION['long']}&hourly=temperature_2m&timezone=Europe%2FBerlin&start_date={self.tomorrow}&end_date={self.tomorrow2}"
         #self.API_URL=f"https://api.open-meteo.com/v1/forecast?latitude={self.POSITION['lat']}&longitude={self.POSITION['long']}&hourly=temperature_2m&timezone=Europe%2FBerlin&start_date={self.today}&end_date={self.tomorrow}"
         # Jeg er ikke helt sikker på, hvad forskellen på de to API'er er (og om der er forskel), det returnerer i dag samme temperatur
 
