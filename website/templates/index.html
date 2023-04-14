@@ -3,48 +3,80 @@
 <head>
     <title>Heat Pump Control Panel</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <h1>Heat Pump Control Panel</h1>
-
-    <div class="margin">
-        <!--Energy consumption-->
-        <div class="box">
-            <p class="navboxpara" style="margin-top: 12px;"> Udendørs temp: {{ udendors_temperatur }}</a></p>
-           
-        </div>
-
-            <!--Savings-->
-        <div class="box">
-            <p class="navboxpara"><a class="navboxpara" href="./savings/index.html" style="margin-top: 12px;">An overview of your savings using the product</a></p>
-        </div>
-
-        <!--Energy Prices-->
-        <div class="box">
-            <p class="navboxpara"><a class="navboxpara" href="./energy_prices/index.html" style="margin-top: 24px;">The current energy prices</a></p>
-        </div>
-
-        <!--Heating Schedule-->
-        <div class="box">
-            <p class="navboxpara"><a class="navboxpara" href="./heating_schedule/index.html" style="margin-top: 12px;">Your heating schedule for the day based on the current energy prices</a></p>
-        </div>
-
-        <!--Settings-->
-        <div class="box">
-            <form action="/" method="post">       
-                <br>
-                <label for="temp">Temperature:</label>
-                <input type="range" id="temp" name="temp" min="-10" max="10" value="{{ varme_temperatur }}", oninput="document.getElementById('temp-value').innerHTML = this.value;">
-                <span id="temp-value">{{ varme_temperatur }}</span>
-                <input type="hidden" name="submitted" value="true">
-                <br>
-                <input type="submit" name="submit" value="Submit">
-                <button type="button" name="test" onclick="callFunction()">Call Function</button>
-                <h1>{{ varme_temperatur }}</h1>        
+    <span style="font-family: 'Open Sans'; font-weight: bolder; font-size: 18px;">
+        <div class="margin">
+            <div class="box">
+                <p> Udendørs temp: {{ udendors_temperatur }} </p>
             </div>
+
+
+            <div class="box">
+                <p> 24 Timers forbrug: {{ last_usage_kwh }} KwH <br> 24 Timers forbrug: {{ last_usage_dkk }} DKK</p>
+            </div>
+
+            <!--Energy Prices-->
+            <div class="box">
+                <p> Pump Speed Heating: {{ pump_speed }} <br> Fremløbs Temperatur: {{ flow_temp }}</p>
+            </div>
+
+            <!--Heating Schedule-->
+            <div class="box">
+                <p>Test</p>
+            </div>
+
+            <!--Settings-->
+            <div class="box">
+                <p>Test</p>
+            </div>
+        </div>
+
+        <div class="margin">
+            <div class="box2">
+                <p>Test</p>
+            </div>
+
+
+            <div class="box2">
+                <p>Test</p>
+            </div>
+
+            <!--Energy Prices-->
+            <div class="box2">
+                <p>Test</p>
+            </div>
+
+            <!--Heating Schedule-->
+            <div class="box2">
+                <p>Test</p>
+            </div>
+
+            <!--Settings-->
+            <div class="box2">
+                <form action="/" method="post">       
+                    <br>
+                    <label for="temp">Temperature:</label>
+                    <input type="range" id="temp" name="temp" min="-10" max="10" value="{{ varme_temperatur }}", oninput="document.getElementById('temp-value').innerHTML = this.value;">
+                    <span id="temp-value">{{ varme_temperatur }}</span>
+                    <input type="hidden" name="submitted" value="true">
+                    <br>
+                    <input type="submit" name="submit" value="Submit">    
+                </form>   
+            </div>
+        </div>
+    </span>
+
+    <h1>Heating Schedule next 24 Hours</h1>
+    <div id="chart-container">
+        <!-- Placeholder for the chart -->
+        {{ heating_chart|safe }}
     </div>
+
 
     <!--Den fine hamburger menu-->
     <input type="checkbox" class="toggler">
@@ -54,10 +86,12 @@
             <ul>
                 <li><a href='index.html'>Home</a></li>
                 <li><a href='/chart'>Usage</a></li>
-                <li><a href='#'>Placeholder</a></li>
-                <li><a href='#'>Placeholder</a></li>
+                <li><a href='#'>Placehold.</a></li>
+                <li><a href='#'>Placehold.</a></li>
             </ul>
         </div>
     </div>
+
+<button type="button" name="test" onclick="callFunction()">Call Function</button>
 </body>
 </html>

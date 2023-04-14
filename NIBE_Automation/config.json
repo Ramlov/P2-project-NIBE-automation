@@ -1,0 +1,8 @@
+{
+  "database": {
+    "host": "mysql110.unoeuro.com",
+    "dbname": "ramlov_org_db",
+    "username": "ramlov_org",
+    "password": "a9hpyFH4cGdf"
+  }
+}

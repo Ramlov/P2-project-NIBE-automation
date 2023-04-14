@@ -10,9 +10,12 @@ h1 {
     text-align: center;
 }
 
-.margin{
+.margin {
     margin-left: 20px;
-    /*text-align: center; - might wanna do this instead but would like some feedback on it*/
+    display: flex; /* Add this line to enable flexbox layout */
+    justify-content: center; /* Center the boxes horizontally */
+    align-items: center; /* Center the boxes vertically */
+    flex-wrap: wrap; /* Allow boxes to wrap to new line if necessary */
 }
 
 .box{
@@ -31,11 +34,24 @@ h1 {
     margin-right: 10px;
     margin-bottom: 10px;
 }
-.navboxpara{
+
+.box2{
     display: inline-block;
-    color: rgb(0, 0, 0);
-    text-decoration: none;
+    background-color: #44ff5dd6;
+    border-top-color: #00a015c1;
+    border-left-color: #00a015c1;
+    border-right-color: #00a015c1;
+    border-bottom-color: #00a015c1;
+    border-radius: 20px;
+    border-style: inset;
+    height:100px; 
+    width: 300px; 
+    vertical-align: middle;
+    text-align: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
+
 
 
 /*Knap*/

@@ -4,14 +4,14 @@ from requests_oauthlib import OAuth2Session
 
 HTTP_STATUS_OK = 200
 
-token_filename= '.NIBE_Uplink_API_Token.json'
+token_filename= '.NIBE_Uplink_API_Token_GET.json'
 
 def token_saver(token):
     with open(token_filename, 'w') as token_file:
         dump(token, token_file)
 
-client_id = '' # (32 hex digits)
-client_secret = '' # (44 characters)
+client_id = '59682261e9f04ab9a867eb7cfa93e840' # (32 hex digits)
+client_secret = '/xADpEzVVYraWKnP6lZvcbT2RX51N4TDSM34Lry+w7w=' # (44 characters)
 token_url = 'https://api.nibeuplink.com/oauth/token'
 
 

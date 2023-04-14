@@ -1,5 +1,7 @@
 from json import dump, load
 from requests_oauthlib import OAuth2Session
+from datetime import datetime, timedelta
+import pymysql
 
 class helper:
     def __init__(self):
@@ -68,3 +70,30 @@ class helper:
             status = 'HTTP Status: ' + str(response.status_code)
             status = response.text
         return status
+
+
+    def usage(self, hours_back):
+        with open('config.json', 'r') as file:
+            config = load(file)
+        db_host = config['database']['host']
+        db_name = config['database']['dbname']
+        db_username = config['database']['username']
+        db_password = config['database']['password']
+
+        db_connection = pymysql.connect(host=db_host, database=db_name, user=db_username, password=db_password)
+        db_cursor = db_connection.cursor()
+
+        now = datetime.now()
+        start_time = now - timedelta(hours=hours_back)
+        end_time = now
+
+        query = f"SELECT value, price FROM pulse_data WHERE time BETWEEN '{start_time}' AND '{end_time}'"
+        db_cursor.execute(query)
+        rows = db_cursor.fetchall()
+        db_cursor.close()
+        db_connection.close()
+
+        sum_value = sum(row[0] for row in rows) / 1000
+        avg_price = sum(row[1] for row in rows) / len(rows)
+        total = avg_price * sum_value
+        return sum_value, avg_price, total
