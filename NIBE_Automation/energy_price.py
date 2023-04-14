@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime, date, timedelta
+from time import sleep
 import pandas as pd
 import json
 
@@ -17,7 +18,7 @@ class ElectricityPricing:
     def get_time(self):
         try:
             tomorrow = date.today() + timedelta(days=1)
-            tomorrow2 = date.today() + timedelta(days=2)
+            tomorrow2 = date.today() + timedelta(days=1)
             hour = "00:00"
             return tomorrow, tomorrow2, hour
         except Exception as e:
@@ -191,12 +192,14 @@ class Combine:
     def check_data(self):
         df = pd.read_csv('combineddata.csv')
         while True:
-            if len(df) > 20:
+            if len(df) > 22:
                 print("Data")
-                #combine_data()
+                break
             else:
-                print("Ingen data")
+                self.combine_data()
+                sleep(3*60)
 
 if __name__ == "__main__":
     comb = Combine()
     comb.combine_data()
+    comb.check_data()
