@@ -185,17 +185,20 @@ class Combine:
                     df_new.loc[i, ("TurnOn")] = False
             df_new.to_csv('combineddata.csv', index=False)
             payload = json.dumps(data)
-            response = requests.post("https://discord.com/api/webhooks/1092461466000576764/TZuzacO5VbowCLekKPDdESvZxK4UBmLVVcNWc9U5J4CuqYXarEVdLB-A02Vu4PRJMtjz", data=payload, headers={"Content-Type": "application/json"})
+            requests.post("https://discord.com/api/webhooks/1092461466000576764/TZuzacO5VbowCLekKPDdESvZxK4UBmLVVcNWc9U5J4CuqYXarEVdLB-A02Vu4PRJMtjz", data=payload, headers={"Content-Type": "application/json"})
         except Exception as e:
             print(f"An error occurred while combining price- and tempdata: {e}")
     
     def check_data(self):
-        df = pd.read_csv('combineddata.csv')
         while True:
-            if len(df) > 22:
-                print("Data")
-                break
-            else:
+            try:
+                df = pd.read_csv('combineddata.csv')
+                if len(df) > 22:
+                    print(df)
+                    print(len(df))
+                    print("Data")
+                    break
+            except:
                 self.combine_data()
                 sleep(3*60)
 

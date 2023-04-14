@@ -2,9 +2,9 @@ from flask import Flask, render_template, request, redirect
 from helper_class import helper
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-import pymysql
+import pymysql, json
 import pandas as pd
-import json
+import datetime
 
 #from waitress import serve
 
@@ -22,13 +22,15 @@ db_password = config['database']['password']
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    now = datetime.datetime.now()
+    date_string = "{} the {} of {}".format(now.strftime('%A'), now.strftime('%d'), now.strftime('%B'))
     chart = heating_chart()
     if request.method == 'POST' and 'submit' in request.form:
         temp = request.form['temp']
         helpers.put_request(temp)
-        return render_template('index.html',heating_chart=chart, varme_temperatur=temp, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=helpers.usage(24)[0], last_usage_dkk=round(helpers.usage(24)[2],2))
+        return render_template('index.html',heating_chart=chart, date=date_string, varme_temperatur=temp, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=helpers.usage(24)[0], last_usage_dkk=round(helpers.usage(24)[2],2))
     else:
-        return render_template('index.html',heating_chart=chart, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=helpers.usage(24)[0], last_usage_dkk=round(helpers.usage(24)[2],2))
+        return render_template('index.html',heating_chart=chart, date=date_string, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=helpers.usage(24)[0], last_usage_dkk=round(helpers.usage(24)[2],2))
 
 @app.route('/heating_chart')
 def heating_chart():
@@ -49,7 +51,7 @@ def heating_chart():
     fig.add_trace(go.Scatter(x=hours, y=turn_on, mode='lines', marker=dict(color='green'), name='Turn On'), row=1, col=1, secondary_y=False)
     fig.update_yaxes(title_text='Spot Price DKK', secondary_y=True)
     fig.update_yaxes(title_text='Turn On', secondary_y=False)
-    fig.update_layout(title='Heating Data Line Plot', xaxis_title='HourDK')
+    fig.update_layout(xaxis_title='Hour')
 
     chart = fig.to_html(full_html=False)
     return chart
@@ -92,5 +94,7 @@ def test():
   return("")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)
+    #app.run(host='0.0.0.0', port=5000, debug=True)
    #app.run(debug=True)
