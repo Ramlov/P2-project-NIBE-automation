@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pulse Data Chart</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <!-- Include Plotly.js library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Pulse Data Chart</h1>
+    <div id="chart-container">
+        <!-- Placeholder for the chart -->
+        {{ chart|safe }}
+    </div>
+
+    <input type="checkbox" class="toggler">
+    <div class="hamburger"><div></div></div>
+    <div class="menu">
+        <div>
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href='/chart'>Usage</a></li>
+                <li><a href='#'>Placeholder</a></li>
+                <li><a href='#'>Placeholder</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
