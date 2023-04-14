@@ -16,8 +16,8 @@ class ElectricityPricing:
 
     def get_time(self):
         try:
-            tomorrow = date.today()
-            tomorrow2 = date.today() + timedelta(days=1)
+            tomorrow = date.today() + timedelta(days=1)
+            tomorrow2 = date.today() + timedelta(days=2)
             hour = "00:00"
             return tomorrow, tomorrow2, hour
         except Exception as e:
@@ -187,6 +187,15 @@ class Combine:
             response = requests.post("https://discord.com/api/webhooks/1092461466000576764/TZuzacO5VbowCLekKPDdESvZxK4UBmLVVcNWc9U5J4CuqYXarEVdLB-A02Vu4PRJMtjz", data=payload, headers={"Content-Type": "application/json"})
         except Exception as e:
             print(f"An error occurred while combining price- and tempdata: {e}")
+    
+    def check_data(self):
+        df = pd.read_csv('combineddata.csv')
+        while True:
+            if len(df) > 20:
+                print("Data")
+                #combine_data()
+            else:
+                print("Ingen data")
 
 if __name__ == "__main__":
     comb = Combine()

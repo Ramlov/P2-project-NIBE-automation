@@ -4,9 +4,9 @@ from time import sleep
 from json import dump, load, dumps
 from requests_oauthlib import OAuth2Session
 import requests
-from energy_price import ElectricityPricing
+#from energy_price import ElectricityPricing
 
-price_collector = ElectricityPricing() 
+#price_collector = ElectricityPricing() 
 
 HTTP_STATUS_OK = 200 #En statuskode returneret af API
 client_id = '59682261e9f04ab9a867eb7cfa93e840' # (32 hex digits)
@@ -35,7 +35,7 @@ def gettime():
     return(current_time)
 
 def getstatus(index):
-    df = pd.read_csv('combineddata.csv')
+    df = pd.read_csv('data.csv')
     try:
         value = df['TurnOn'].iloc[index]
         return(value)
