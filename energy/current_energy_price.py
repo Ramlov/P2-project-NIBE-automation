@@ -35,11 +35,9 @@ class ElectricityPricing:
             }
             
             r = requests.get(self.url, params=params)
-            #print(r)
             r.raise_for_status()
             pricedata = r.json()
             pricedata_list = [pricedata["records"][0]["HourDK"], (pricedata["records"][0]["SpotPriceEUR"] / 1000)]
-            print(pricedata_list)
             return pricedata_list
         except Exception as e:
             print(f"An error occurred while getting price data: {e}")
