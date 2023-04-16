@@ -3,6 +3,12 @@ from datetime import datetime, date, timedelta
 
 class ElectricityPricing:
     def __init__(self):
+        """
+        Initializes the ElectricityPricing object.
+
+        Sets the default values for URL, price areas, VAT rate, tariff rates, electricity tax rate,
+        Energinet rate, and electric company rate.
+        """
         self.url = "https://api.energidataservice.dk/dataset/Elspotprices"
         self.price_areas = ["DK1"]
         self.vat_rate = 0.25
@@ -10,9 +16,16 @@ class ElectricityPricing:
         self.tarif_2_rate = 0.432225
         self.elafgift_rate = 0.008
         self.energinet_rate = (0.058 + 0.054) * 1.25
-        self.electric_company_rate = 0  # <----------------------- Vi skal finde ud af, hvad Preb betaler pr kWh til Norlys
+        self.electric_company_rate = 0
 
     def get_time(self):
+        """
+        Gets the current date and hour in the format required for API requests.
+
+        Returns:
+            tuple: A tuple containing the current date (in the format YYYY-MM-DD), current hour (in the format HH:00),
+            and the next hour (in the format HH:00).
+        """
         try:
             today = date.today()
             now = datetime.now()
@@ -23,6 +36,12 @@ class ElectricityPricing:
             return None, None, None
 
     def get_pricedata(self):
+        """
+        Retrieves the current spot price data for electricity from the API.
+
+        Returns:
+            list: A list containing the current hour and spot price (in DKK per kWh).
+        """
         try:
             today, hour, hour_next = self.get_time()
             if not all([today, hour, hour_next]):
@@ -41,9 +60,22 @@ class ElectricityPricing:
             return 0
 
     def add_to_price(self, price_raw, hour, month):
+        """
+        Calculates the total electricity price by adding VAT, tariff rates, electricity tax rate,
+        Energinet rate, and electric company rate to the raw spot price.
+
+        Args:
+            price_raw (float): The raw spot price of electricity (in DKK per kWh).
+            hour (str): The current hour (in the format HH).
+            month (str): The current month (in the format MM).
+
+        Returns:
+            float: The total electricity price (including VAT, tariff rates, electricity tax rate,
+            Energinet rate, and electric company rate) in DKK per kWh.
+        """
         try:
             price_vat = price_raw * self.vat_rate
-            if 17 <= int(hour) <= 21 and (1 <= int(month) <= 3 or 10 <= int(month) <= 12):
+            if 17 <= int(hour) <= 20 and (1 <= int(month) <= 3 or 10 <= int(month) <= 12):
                 price_tarif = self.tarif_1_rate * 1.25           
             else:
                 price_tarif = self.tarif_2_rate * 1.25
@@ -53,6 +85,13 @@ class ElectricityPricing:
             return 0
 
     def get_current_price(self):
+        """
+        Gets the current total electricity price.
+
+        Returns:
+            float: The current total electricity price (including VAT, tariff rates, electricity tax rate,
+            Energinet rate, and electric company rate) in DKK per kWh.
+        """
         try:
             today, hour, null = self.get_time()
             hour = int(hour[0:2])

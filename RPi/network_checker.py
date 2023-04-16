@@ -5,11 +5,28 @@ import socket
 
 class InternetChecker:
     def __init__(self, discord_webhook_url, ssid, psk):
+        """
+        Initializes an InternetChecker object with the provided Discord webhook URL, SSID, and PSK.
+
+        Args:
+            discord_webhook_url (str): The Discord webhook URL to post notifications.
+            ssid (str): The SSID of the Wi-Fi network to check for internet connectivity.
+            psk (str): The pre-shared key (PSK) of the Wi-Fi network.
+
+        Returns:
+            None
+        """
         self.discord = Discord(url=discord_webhook_url)
         self.ssid = ssid
         self.psk = psk
 
     def check_internet(self):
+        """
+        Check if there is an active internet connection by connecting to a known IP and domain.
+
+        Returns:
+            bool: True if internet is connected, False otherwise.
+        """
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -25,6 +42,12 @@ class InternetChecker:
 
 
     def check_internet_connection(self):
+        """
+        Check if there is an active internet connection using the check_internet() method.
+
+        Returns:
+            bool: True if internet connection is established, False otherwise.
+        """
         connected = False
         attempts = 0
 
@@ -38,6 +61,13 @@ class InternetChecker:
 
 
     def reconnect_wifi(self):
+        """
+        Reconnect to the Wi-Fi network by terminating the existing connection, bringing down and up the network interface,
+        updating the Wi-Fi configuration file, and obtaining a new IP address.
+
+        Returns:
+            None
+        """
         subprocess.run(["sudo", "wpa_cli", "-i", "wlan0", "terminate"])
         subprocess.run(["sudo", "ip", "link", "set", "wlan0", "down"])
         subprocess.run(["sudo", "ip", "link", "set", "wlan0", "up"])

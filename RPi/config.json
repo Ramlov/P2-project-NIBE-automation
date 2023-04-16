@@ -1,0 +1,19 @@
+{
+    "database": {
+      "db_host": "mysql110.unoeuro.com",
+      "db_user": "ramlov_org",
+      "db_password": "a9hpyFH4cGdf",
+      "db_name": "ramlov_org_db"
+    },
+    "network": {
+      "ssid": "Telenor4443odd",
+      "psk": "HpQCTN3TL",
+      "discord_webhook_url": "https://discord.com/api/webhooks/1082343407294353489/oTED7SyRk5sPVSqkF2lz4hOSqsMaoyRMNNIfhF5TP3Lzqo-GTwBAtoCyyVBEUtXkG3fK"
+    },
+    "raspberrypi": {
+        "pulse_pin": 24,
+        "update_interval": [15,30,45,59]
+
+    }
+  }
+  
