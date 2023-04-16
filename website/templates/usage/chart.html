@@ -7,23 +7,21 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
+    <header>
+        <nav>
+          <div class="logo"><a href="/">Heat Pump Dashboard</a></div>
+          <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/chart">Usage</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
     <h1>Pulse Data Chart</h1>
     <div id="chart-container">
         <!-- Placeholder for the chart -->
         {{ chart|safe }}
     </div>
 
-    <input type="checkbox" class="toggler">
-    <div class="hamburger"><div></div></div>
-    <div class="menu">
-        <div>
-            <ul>
-                <li><a href='/'>Home</a></li>
-                <li><a href='/chart'>Usage</a></li>
-                <li><a href='#'>Placehold.</a></li>
-                <li><a href='#'>Placehold.</a></li>
-            </ul>
-        </div>
-    </div>
 </body>
 </html>

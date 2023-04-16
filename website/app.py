@@ -27,10 +27,10 @@ def home():
     chart = heating_chart()
     if request.method == 'POST' and 'submit' in request.form:
         temp = request.form['temp']
-        helpers.put_request(temp)
-        return render_template('index.html',heating_chart=chart, date=date_string, varme_temperatur=temp, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=helpers.usage(24)[0], last_usage_dkk=round(helpers.usage(24)[2],2))
+        helpers.put_request(parameter_id=47011, value=temp)
+        return render_template('index.html',heating_chart=chart, date=date_string, varme_temperatur=temp, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=round(helpers.usage(24)[0],2), last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), last7_usage_dkk=round(helpers.usage(168)[2],2))
     else:
-        return render_template('index.html',heating_chart=chart, date=date_string, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=helpers.usage(24)[0], last_usage_dkk=round(helpers.usage(24)[2],2))
+        return render_template('index.html',heating_chart=chart, date=date_string, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=round(helpers.usage(24)[0],2), last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), last7_usage_dkk=round(helpers.usage(168)[2],2))
 
 @app.route('/heating_chart')
 def heating_chart():
@@ -72,9 +72,9 @@ def chart():
     conn.close()
 
     fig = make_subplots(rows=1, cols=1, specs=[[{'secondary_y': True}]])
-    fig.add_trace(go.Scatter(x=times, y=values, mode='lines', marker=dict(color='green'), name='Value'), row=1, col=1, secondary_y=False)
+    fig.add_trace(go.Scatter(x=times, y=values, mode='lines', marker=dict(color='green'), name='Watt Hour'), row=1, col=1, secondary_y=False)
     fig.add_trace(go.Scatter(x=times, y=prices, mode='lines', marker=dict(color='orange'), name='Price'), row=1, col=1, secondary_y=True)
-    fig.update_yaxes(title_text='Value', secondary_y=False)
+    fig.update_yaxes(title_text='Watt Hour', secondary_y=False)
     fig.update_yaxes(title_text='Price', secondary_y=True)
     fig.update_layout(title='Pulse Data Line Plot', xaxis_title='Time')
 
