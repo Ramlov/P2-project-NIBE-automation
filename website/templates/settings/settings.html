@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Settings Page</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo"><a href="/">Heat Pump Dashboard</a></div>
+        <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/chart">Usage</a></li>
+        <li><a href="/settings">Settings</a></li>
+        </ul>
+    </nav>
+</header>
+  <div class="container mt-5">
+    <h1 class="mb-4">Settings Page</h1>
+    <form id="settings-form">
+      <div class="row">
+        <!-- Generate 24 input fields in a 4x6 grid layout -->
+        <script>
+          for (let hour = 1; hour <= 24; hour++) {
+            document.write(`
+              <div class="col-md-2">
+                <label for="value-${hour}">Hour ${hour}</label>
+                <input type="number" min="-10" max="10" id="value-${hour}" name="value-${hour}" class="form-control" value="0" required>
+              </div>
+            `);
+          }
+        </script>
+      </div>
+      <div class="form-group mt-3">
+        <button type="button" onclick="saveSettings()" class="btn btn-primary">Save Settings</button>
+      </div>
+    </form>
+  </div>
+  <script src="/static/script.js"></script>
+</body>
+</html>

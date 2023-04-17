@@ -147,3 +147,7 @@ nav {
   .btn:hover {
     background-color: #0056b3;
   }
+
+  .btn.active {
+    background-color: #22ff00;
+  }

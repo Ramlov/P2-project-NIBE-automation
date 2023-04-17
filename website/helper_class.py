@@ -7,15 +7,16 @@ class helper:
     def __init__(self):
         with open('config.json', 'r') as f:
             config = load(f)
-        self.HTTP_STATUS_OK = HTTP_STATUS_OK = config['api']['HTTP_STATUS_OK']
+        self.HTTP_STATUS_OK = config['api']['HTTP_STATUS_OK']
         self.client_id = config['api']['client_id']
         self.client_secret = config['api']['client_secret']
+        self.system_id = config['api']['system_id']
         self.token_filename_get = config['api']['token_filename_get']
         self.token_filename_put = config['api']['token_filename_put']
         self.token_url = config['api']['token_url_oauth']
         self.extra_args = {'client_id': self.client_id, 'client_secret': self.client_secret}
 
-    def get_request(self, parameter_id):
+    def get_request(self, parameter_id,categoryId):
 
         def token_saver(token):
             with open(self.token_filename_get, 'w') as token_file:
@@ -27,10 +28,9 @@ class helper:
 
         nibeuplink = OAuth2Session(client_id=self.client_id, token=token, auto_refresh_url=self.token_url, auto_refresh_kwargs=self.extra_args, token_updater=token_saver)
 
-        response = nibeuplink.get('https://api.nibeuplink.com/api/v1/systems/138372/serviceinfo/categories/status?categoryId=STATUS')
+        response = nibeuplink.get('https://api.nibeuplink.com/api/v1/systems/'+str(self.system_id)+'/serviceinfo/categories/status?categoryId='+str(categoryId))
         if response.status_code == self.HTTP_STATUS_OK:
             objects = response.json()
-            #value = f'Udendørs temperatur {objects[1]["displayValue"]}'
             for item in objects:
                 if item['parameterId'] == parameter_id:
                     return item['displayValue']
@@ -40,7 +40,7 @@ class helper:
         return value
 
 
-    def put_request(self, temp):
+    def put_request(self, parameter_id, value):
         status = None
         print("Has been run")
         def token_saver(token):
@@ -56,7 +56,7 @@ class helper:
 
         query = {
             'settings':{
-            '47011':temp
+            parameter_id:value
             }
         }
         url = 'https://api.nibeuplink.com/api/v1/systems/138372/parameters/'

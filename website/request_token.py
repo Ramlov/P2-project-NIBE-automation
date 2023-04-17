@@ -1,4 +1,3 @@
-from os import path
 from json import dump
 from requests_oauthlib import OAuth2Session
 

@@ -31,6 +31,7 @@ systems = response.json()['objects']
 
 for system in systems:
     system_id = system['systemId']
+    print(system_id)
     print('System Id:  ' +  str(system_id))
     response = nibeuplink.get('https://api.nibeuplink.com/api/v1/systems/' + str(system_id) + '/units')
     if response.status_code != HTTP_STATUS_OK:
@@ -38,12 +39,13 @@ for system in systems:
         print(response.text)
         raise SystemExit('API call not successful')
     units = response.json()
-
+    print(units)
     for unit in units:
         unit_id = unit['systemUnitId']
         print('\tUnit Id:  ', unit_id)
 
         params = {'systemUnitId': unit_id}
+        print("Mathais   ", params)
         response = nibeuplink.get('https://api.nibeuplink.com/api/v1/systems/' + str(system_id) + '/serviceinfo/categories', params=params)
         if response.status_code != HTTP_STATUS_OK:
             print('HTTP Status: ' + str(response.status_code))

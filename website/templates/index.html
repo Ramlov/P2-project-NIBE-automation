@@ -15,7 +15,7 @@
             <ul class="nav-links">
               <li><a href="/">Home</a></li>
               <li><a href="/chart">Usage</a></li>
-              <li><a href="#">Contact</a></li>
+              <li><a href="/settings">Settings</a></li>
             </ul>
           </nav>
         </header>
@@ -41,12 +41,12 @@
             <p>{{ flow_temp }}</p>
           </div>
           <div class="info-box">
-            <h2>Info Box 6</h2>
-            <p>Info Box 6 content here</p>
+            <h2>Return Temperature</h2>
+            <p>{{ return_temp }}</p>
           </div>
           <div class="info-box">
             <h2>Temporary heating boost</h2>
-            <p><button class="btn">Turn on</button></p>
+            <p><button id="toggleBtn" class="btn">Turn on</button></p>
           </div>
           <div class="info-box">
             <h2>Climate System adjustment</h2>
@@ -69,5 +69,7 @@
         <footer>
           <p>©Copyright <a href="https://github.com/Ramlov/">Mathias Ramlov</a></p>
         </footer>
+
+        <script src="/static/script.js"></script
       </body>
 </html>

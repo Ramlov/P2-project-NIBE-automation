@@ -3,9 +3,9 @@ from json import dump, load
 from requests_oauthlib import OAuth2Session
 
 HTTP_STATUS_OK = 200 #En statuskode returneret af API
-client_id = '' # (32 hex digits)
-client_secret = '' # (44 characters)
-token_filename= 'NIBE_API/.NIBE_Uplink_API_Token.json'
+client_id = '59682261e9f04ab9a867eb7cfa93e840' # (32 hex digits)
+client_secret = '/xADpEzVVYraWKnP6lZvcbT2RX51N4TDSM34Lry+w7w=' # (44 characters)
+token_filename= '.NIBE_Uplink_API_Token_PUT.json'
 token_url = 'https://api.nibeuplink.com/oauth/token'
 extra_args = {'client_id': client_id, 'client_secret': client_secret}
 
@@ -23,7 +23,7 @@ nibeuplink = OAuth2Session(client_id=client_id, token=token, auto_refresh_url=to
 
 query = {
     'settings':{
-    '47011':'10'
+    'hot_water_boost':'0'
     }
 }
 url = 'https://api.nibeuplink.com/api/v1/systems/138372/parameters/'

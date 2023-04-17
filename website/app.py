@@ -6,8 +6,6 @@ import pymysql, json
 import pandas as pd
 import datetime
 
-#from waitress import serve
-
 helpers = helper()
 
 app = Flask(__name__)
@@ -28,9 +26,9 @@ def home():
     if request.method == 'POST' and 'submit' in request.form:
         temp = request.form['temp']
         helpers.put_request(parameter_id=47011, value=temp)
-        return render_template('index.html',heating_chart=chart, date=date_string, varme_temperatur=temp, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=round(helpers.usage(24)[0],2), last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), last7_usage_dkk=round(helpers.usage(168)[2],2))
+        return render_template('index.html',heating_chart=chart, date=date_string, varme_temperatur=temp, return_temp=helpers.get_request(40012,"SYSTEM_1"), pump_speed=helpers.get_request(43437,"STATUS"), flow_temp=helpers.get_request(40014,"STATUS"), udendors_temperatur=helpers.get_request(40004,"STATUS"), last_usage_kwh=round(helpers.usage(24)[0],2), last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), last7_usage_dkk=round(helpers.usage(168)[2],2))
     else:
-        return render_template('index.html',heating_chart=chart, date=date_string, pump_speed=helpers.get_request(43437), flow_temp=helpers.get_request(40014), udendors_temperatur=helpers.get_request(40004), last_usage_kwh=round(helpers.usage(24)[0],2), last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), last7_usage_dkk=round(helpers.usage(168)[2],2))
+        return render_template('index.html',heating_chart=chart, date=date_string, return_temp=helpers.get_request(40012,"SYSTEM_1"), pump_speed=helpers.get_request(43437,"STATUS"), flow_temp=helpers.get_request(40014,"STATUS"), udendors_temperatur=helpers.get_request(40004,"STATUS"), last_usage_kwh=round(helpers.usage(24)[0],2), last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), last7_usage_dkk=round(helpers.usage(168)[2],2))
 
 @app.route('/heating_chart')
 def heating_chart():
@@ -86,15 +84,26 @@ def chart():
     return render_template('usage/chart.html', chart=chart)
 
 
+@app.route('/toggle', methods=['POST'])
+def toggle_button():
+    value = request.json['value']
+    helpers.put_request(parameter_id="hot_water_boost", value=value)
+    return {'status': 'success'}  # Return a JSON response if needed
 
-@app.route('/test')
-def test():
-  # do something
-  print('Function called successfully.')
-  return("")
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    if request.method == 'POST':
+        schedule = request.get_json()['schedule']
+        df = pd.DataFrame({'Hour': range(24), 'Value': schedule})
+        df['Value'] = df['Value'].apply(lambda x: min(x, 10))
+        df.to_csv('schedule.csv', index=False)
+        return 'Schedule saved to CSV'
+    else:
+        return render_template('settings/settings.html')
+
 
 if __name__ == '__main__':
     from waitress import serve
-    serve(app, host="0.0.0.0", port=5000)
-    #app.run(host='0.0.0.0', port=5000, debug=True)
+    #serve(app, host="0.0.0.0", port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
    #app.run(debug=True)
