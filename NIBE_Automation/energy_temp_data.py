@@ -6,14 +6,14 @@ import json
 
 class ElectricityPricing:
     def __init__(self):
-        self.url = "https://api.energidataservice.dk/dataset/Elspotprices"
-        self.price_areas = "DK1"
-        self.vat_rate = 0.25
-        self.tarif_1_rate = 1.05619
-        self.tarif_2_rate = 0.432225
-        self.elafgift_rate = 0.008
-        self.energinet_rate = (0.058 + 0.054) * 1.25
-        self.electric_company_rate = 0
+        self.BASE_URL = "https://api.energidataservice.dk/dataset/Elspotprices"
+        self.PRICE_AREA = "DK1"
+        self.VAT_FACTOR = 0.25
+        self.TARIF_HIGH_RATE = 1.05619
+        self.TARIF_LOW_RATE = 0.432225
+        self.ELAFGIFT_RATE = 0.008
+        self.ENERGINET_RATE = (0.058 + 0.054) * 1.25
+        self.ELECTRIC_COMPANY_RATE = 0
 
     def get_time(self):
         try:
@@ -31,9 +31,9 @@ class ElectricityPricing:
             params = {
                 "start": f"{tomorrow}T{hour}",
                 "end": f"{tomorrow2}T{hour}",
-                "filter": f'{{"PriceArea":["{self.price_areas}"]}}'
+                "filter": f'{{"PriceArea":["{self.PRICE_AREA}"]}}'
             }
-            r = requests.get(self.url, params=params)
+            r = requests.get(self.BASE_URL, params=params)
             r.raise_for_status()
             pricedata = r.json()
             df = pd.DataFrame(pricedata)
@@ -52,14 +52,14 @@ class ElectricityPricing:
             df = pd.read_csv('pricedata.csv')
             df['SpotPriceDKK'] *= 1.25
             if 1 <= int(month) <= 3 or 10 <= int(month) <= 12:
-                price_tarif = self.tarif_1_rate * 1.25  
+                price_tarif = self.TARIF_HIGH_RATE * 1.25  
                 df.iloc[17:20, df.columns.get_loc("SpotPriceDKK")] += price_tarif
-                price_tarif = self.tarif_2_rate * 1.25
+                price_tarif = self.TARIF_LOW_RATE * 1.25
                 df.loc[~df.index.isin(range(17, 20)), 'SpotPriceDKK'] += price_tarif  
             else:
-                price_tarif = self.tarif_2_rate * 1.25
+                price_tarif = self.TARIF_LOW_RATE * 1.25
                 df['SpotPriceDKK'] += price_tarif  
-            df['SpotPriceDKK'] += self.elafgift_rate + self.energinet_rate + self.electric_company_rate
+            df['SpotPriceDKK'] += self.ELAFGIFT_RATE + self.ENERGINET_RATE + self.ELECTRIC_COMPANY_RATE
             df.to_csv('pricedata.csv', index=False) 
         except Exception as e:
             print(f"An error occurred while calculating price: {e}")
@@ -98,7 +98,6 @@ class Temperature:
         self.tomorrow = (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
         self.tomorrow2 = (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
         self.API_URL=f"https://api.open-meteo.com/v1/metno?latitude={self.POSITION['lat']}&longitude={self.POSITION['long']}&hourly=temperature_2m&timezone=Europe%2FBerlin&start_date={self.tomorrow}&end_date={self.tomorrow2}"
-        #self.API_URL=f"https://api.open-meteo.com/v1/forecast?latitude={self.POSITION['lat']}&longitude={self.POSITION['long']}&hourly=temperature_2m&timezone=Europe%2FBerlin&start_date={self.today}&end_date={self.tomorrow}"
        
     def get_tempdata(self) -> dict:
         try:
