@@ -50,6 +50,7 @@ class ElectricityPricing:
     def add_to_price(self, month):
         try:
             df = pd.read_csv('pricedata.csv')
+            df['SpotPriceDKK'] *= 1.25
             if 1 <= int(month) <= 3 or 10 <= int(month) <= 12:
                 price_tarif = self.tarif_1_rate * 1.25  
                 df.iloc[17:20, df.columns.get_loc("SpotPriceDKK")] += price_tarif
@@ -58,9 +59,11 @@ class ElectricityPricing:
             else:
                 price_tarif = self.tarif_2_rate * 1.25
                 df['SpotPriceDKK'] += price_tarif  
+            df['SpotPriceDKK'] += self.elafgift_rate + self.energinet_rate + self.electric_company_rate
             df.to_csv('pricedata.csv', index=False) 
         except Exception as e:
             print(f"An error occurred while calculating price: {e}")
+
 
     def sort_price(self):
         try:
@@ -149,21 +152,6 @@ class Combine:
             print(f"An error occurred while instantiating class Combine: {e}")
 
     def combine_data(self) -> None:
-        data = {
-            "username": "NIBE Bot",
-            "embeds": [
-                {
-                    "title": "The Automator",
-                    "color": 5763719,
-                    "description": f'Price collected! \nBot still going strong!',
-                    "footer": {
-                        "text": "Author: Ramlov",
-                        "icon_url": "https://avatars.githubusercontent.com/u/17428562?v=4",
-                        "url": "https://github.com/Ramlov"
-                    }
-                }
-            ]
-        }
         try:
             df_price = pd.read_csv('pricedata.csv')
             df_temp = pd.read_csv('tempdata.csv')
@@ -188,6 +176,21 @@ class Combine:
             print(f"An error occurred while combining price- and tempdata: {e}")
 
     def check_data(self):
+        data = {
+            "username": "NIBE Bot",
+            "embeds": [
+                {
+                    "title": "The Automator",
+                    "color": 5763719,
+                    "description": f'Price collected! \nBot still going strong!',
+                    "footer": {
+                        "text": "Author: Ramlov",
+                        "icon_url": "https://avatars.githubusercontent.com/u/17428562?v=4",
+                        "url": "https://github.com/Ramlov"
+                    }
+                }
+            ]
+        }
         while True:
             try:
                 df = pd.read_csv('combineddata.csv')

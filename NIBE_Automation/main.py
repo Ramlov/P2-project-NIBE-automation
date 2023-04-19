@@ -35,12 +35,26 @@ def gettime():
     return(current_time)
 
 def getstatus(index):
-    df = pd.read_csv('data.csv')
     try:
-        value = df['TurnOn'].iloc[index]
-        return(value)
-    except Exception as e:
-        return(e)
+        df = pd.read_csv('schedule.csv')
+        try:
+            value = df['Value'].iloc[index]
+            return(value)
+        except Exception as e:
+            return(e)
+    except:
+        df = pd.read_csv('data.csv')
+        try:
+            value = df['TurnOn'].iloc[index]
+            if value == "True":
+                status = 10
+            elif value == "Normal":
+                status = 0
+            elif value == "False":
+                status = -10
+            return(status)
+        except Exception as e:
+            return(e)
 
 
 url = 'https://api.nibeuplink.com/api/v1/systems/138372/parameters/'
@@ -49,27 +63,13 @@ time = int(gettime())
 status = getstatus(time)
 print(status)
 print("Current time is ", time)
-if status == "True":
-    query = {
-        'settings':{
-        '47011':'10'
-        }
+status = int(status)
+query = {
+    'settings':{
+    '47011':status
     }
-    print("Heat pump set to: 10")
-elif status == "False":
-    query = {
-        'settings':{
-        '47011':'-10'
-        }
-    }
-    print("Heat pump set to: -10")
-elif status == "Normal":
-    query = {
-        'settings':{
-        '47011':'0'
-        }
-    }
-    print("Heat pump set to: 0")
+}
+print("Heat pump set to: ", status)
 response = nibeuplink.put(url, json=query)
 if response.status_code == HTTP_STATUS_OK:
     print("HTTP Status: OK", "\n200")
