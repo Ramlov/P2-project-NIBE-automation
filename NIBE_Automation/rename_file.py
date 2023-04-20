@@ -15,7 +15,7 @@ data = {
         {
             "title": "The Automator",
             "color": 10181046,
-            "description": f'Heating system update to {date_string}! \nBot still going strong!',
+            "description": f'Heating system update to {date_string}! \nBot still going strong!!',
             "footer": {
                 "text": "Author: Ramlov",
                 "icon_url": "https://avatars.githubusercontent.com/u/17428562?v=4",
