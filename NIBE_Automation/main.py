@@ -1,18 +1,20 @@
 import pandas as pd
 from datetime import datetime
-from time import sleep
 from json import dump, load, dumps
 from requests_oauthlib import OAuth2Session
 import requests
-#from energy_price import ElectricityPricing
 
-#price_collector = ElectricityPricing() 
+with open('config.json') as c:
+    config = load(c)
 
-HTTP_STATUS_OK = 200 #En statuskode returneret af API
-client_id = '59682261e9f04ab9a867eb7cfa93e840' # (32 hex digits)
-client_secret = '/xADpEzVVYraWKnP6lZvcbT2RX51N4TDSM34Lry+w7w=' # (44 characters)
-token_filename= 'NIBE_Uplink_API_Token_PUT.json'
-token_url = 'https://api.nibeuplink.com/oauth/token'
+
+HTTP_STATUS_OK = 200
+api_config = config['api']
+client_id = api_config['client_id']
+client_secret = api_config['client_secret']
+token_filename = api_config['token_filename']
+token_url = api_config['token_url']
+
 extra_args = {'client_id': client_id, 'client_secret': client_secret}
 
 
