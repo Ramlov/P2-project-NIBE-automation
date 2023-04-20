@@ -15,7 +15,7 @@ data = {
         {
             "title": "The Automator",
             "color": 10181046,
-            "description": f'Heating system update to {date_string}! \nBot still going strong!!',
+            "description": f'Heating system update to {date_string}! \nBot still going strong!',
             "footer": {
                 "text": "Author: Ramlov",
                 "icon_url": "https://avatars.githubusercontent.com/u/17428562?v=4",
@@ -30,7 +30,7 @@ data = {
 def rename_csv_file(old_file_path, new_file_path):
     try:
         os.rename(old_file_path, new_file_path)
-        print(f"CSV file renamed from '{old_file_path}' to '{new_file_path}' successfullylll!")
+        print(f"CSV file renamed from '{old_file_path}' to '{new_file_path}' successfully!")
     except OSError as e:
         print(f"Failed to rename CSV file: {e}")
 
