@@ -49,7 +49,7 @@ def getstatus(index):
         try:
             value = df['TurnOn'].iloc[index]
             if value == "True":
-                status = 10
+                status = 5
             elif value == "Normal":
                 status = 0
             elif value == "False":
