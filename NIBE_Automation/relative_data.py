@@ -2,6 +2,7 @@ import requests
 from datetime import datetime, date, timedelta
 import pandas as pd
 from time import sleep
+import numpy as np
 import json
 
 class ElectricityPricing:
@@ -118,11 +119,17 @@ class Combine:
             df_new['HourDK'] = pd.to_datetime(df_new['HourDK'])
             df_new['COP'] = 0.0033 * df_new['Temperature'] ** 2 + 0.0667 * df_new['Temperature'] + 3.2 
             df_new['CHP'] = df_new['SpotPriceDKK'] / df_new['COP']
+
             df_new = df_new.sort_values('CHP')
-            df_new['TurnOn'] = 'False'
-            df_new.iloc[:6, -1] = 'True'
-            df_new.iloc[6:12, -1] = 'Normal'
-            df_new = df_new.sort_values('HourDK')
+
+            max_chp = df_new['CHP'].max()
+            min_chp = df_new['CHP'].min()
+
+            df_new['Offset'] = ((df_new['CHP'] - min_chp) / (max_chp - min_chp) * 20) - 10
+
+            df_new['Offset'] = np.where(df_new['CHP'] < df_new['CHP'].median(), df_new['Offset'].abs(), -df_new['Offset'].abs())
+
+            df_new['Offset'] = df_new['Offset'].round()
             df_new.to_csv('combineddata.csv', index=False)
         except Exception as e:
             print(f"An error occurred while combining price- and tempdata: {e}")

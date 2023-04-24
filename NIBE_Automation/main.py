@@ -55,8 +55,8 @@ def getstatus(index):
             elif value == "False":
                 status = -10
             return(status)
-        except Exception as e:
-            return(e)
+        except:
+            return df['Offset'].iloc[index]
 
 
 url = 'https://api.nibeuplink.com/api/v1/systems/138372/parameters/'

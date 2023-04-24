@@ -32,7 +32,7 @@ def usage():
     sum_value = sum(row[0] for row in rows) / 1000
     avg_price = sum(row[1] for row in rows) / len(rows)
     total = avg_price * sum_value
-    return f'The total KwH usage in periode: {sum_value}. \nThe average price in periode: {avg_price} DKK. \nThe total cost in periode: {total} DKK'
+    return f'The total KwH usage in periode: {round(sum_value,2)}. \nThe average price in periode: {round(avg_price,2)} DKK. \nThe total cost in periode: {round(total,2)} DKK'
 
 
 
