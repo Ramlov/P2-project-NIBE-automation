@@ -51,7 +51,7 @@ def getstatus(index):
             if value == "True":
                 status = 5
             elif value == "Normal":
-                status = 0
+                status = -4
             elif value == "False":
                 status = -10
             return(status)
