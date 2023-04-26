@@ -42,29 +42,6 @@ main
 ├─ testing
 │  ├─ collectdata.py
 │  └─ config.json
-├─ webpage2
-│  ├─ contact_us
-│  │  ├─ index.html
-│  │  └─ style.css
-│  ├─ energy_consumption
-│  │  ├─ Line-Graph.png
-│  │  ├─ index.html
-│  │  └─ style.css
-│  ├─ energy_prices
-│  │  ├─ index.html
-│  │  └─ style.css
-│  ├─ heating_schedule
-│  │  ├─ heatingschedule.png
-│  │  ├─ index.html
-│  │  └─ style.css
-│  ├─ index.html
-│  ├─ savings
-│  │  ├─ index.html
-│  │  └─ style.css
-│  ├─ settings
-│  │  ├─ index.html
-│  │  └─ style.css
-│  └─ style.css
 └─ website
    ├─ .NIBE_Uplink_API_Token_GET.json
    ├─ .NIBE_Uplink_API_Token_PUT.json
