@@ -10,7 +10,7 @@ Overall, this system is a complex integration of hardware and software that leve
 
 
 
-#File structure#
+## File structure
 ```
 main
 ├─ .gitignore
