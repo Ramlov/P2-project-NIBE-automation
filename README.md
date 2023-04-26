@@ -10,3 +10,81 @@ Overall, this system is a complex integration of hardware and software that leve
 
 
 
+#File structure#
+```
+main
+├─ .gitignore
+├─ NIBE_API
+│  ├─ .DS_Store
+│  ├─ .NIBE_Uplink_API_Token_GET.json
+│  ├─ example_data.txt
+│  ├─ get_data.py
+│  ├─ get_parameters_for_categories_for_systems.py
+│  ├─ put_data.py
+│  └─ requirements.txt
+├─ NIBE_Automation
+│  ├─ NIBE_Uplink_API_Token_PUT.json
+│  ├─ config.json
+│  ├─ energy_temp_data.py
+│  ├─ main.py
+│  ├─ push_data.py
+│  ├─ relative_data.py
+│  └─ rename_file.py
+├─ README.md
+├─ RPi
+│  ├─ README.md
+│  ├─ config.json
+│  ├─ main.py
+│  ├─ network_checker.py
+│  ├─ price.py
+│  ├─ pulse_detector.py
+│  └─ requirements.txt
+├─ testing
+│  ├─ collectdata.py
+│  └─ config.json
+├─ webpage2
+│  ├─ contact_us
+│  │  ├─ index.html
+│  │  └─ style.css
+│  ├─ energy_consumption
+│  │  ├─ Line-Graph.png
+│  │  ├─ index.html
+│  │  └─ style.css
+│  ├─ energy_prices
+│  │  ├─ index.html
+│  │  └─ style.css
+│  ├─ heating_schedule
+│  │  ├─ heatingschedule.png
+│  │  ├─ index.html
+│  │  └─ style.css
+│  ├─ index.html
+│  ├─ savings
+│  │  ├─ index.html
+│  │  └─ style.css
+│  ├─ settings
+│  │  ├─ index.html
+│  │  └─ style.css
+│  └─ style.css
+└─ website
+   ├─ .NIBE_Uplink_API_Token_GET.json
+   ├─ .NIBE_Uplink_API_Token_PUT.json
+   ├─ __pycache__
+   │  └─ helper_class.cpython-310.pyc
+   ├─ app.py
+   ├─ config.json
+   ├─ helper_class.py
+   ├─ request_token.py
+   ├─ script_update_zero_price_thing.py
+   ├─ static
+   │  ├─ script.js
+   │  └─ styles
+   │     └─ style.css
+   └─ templates
+      ├─ index.html
+      ├─ oauth2callback
+      │  └─ index.php
+      ├─ settings
+      │  └─ settings.html
+      └─ usage
+         └─ chart.html
+```
