@@ -17,8 +17,8 @@ class ElectricityPricing:
 
     def get_time(self):
         try:
-            tomorrow = date.today() + timedelta(days=0)
-            tomorrow2 = date.today() + timedelta(days=1)
+            tomorrow = date.today() + timedelta(days=1)
+            tomorrow2 = date.today() + timedelta(days=2)
             hour = "00:00"
             return tomorrow, tomorrow2, hour
         except Exception as e:
@@ -42,7 +42,7 @@ class ElectricityPricing:
             df = pd.json_normalize(df['records'].apply(eval))
             df = df[['HourDK', 'SpotPriceDKK']]
             df = df.sort_values(by=['HourDK'], ascending=True)
-            df['SpotPriceDKK'] = df['SpotPriceDKK'] / 1000
+            df['SpotPriceDKK'] = df['SpotPriceDKK'] / 1000 #Dividere med 1000 fordi prisen fra API er i mWh
             self.add_to_price((datetime.now().month), df)
             df.to_csv('pricedata.csv', index=False)
         except Exception as e:
@@ -67,9 +67,8 @@ class ElectricityPricing:
 class Temperature:
     def __init__(self) -> None:
         self.POSITION = {"lat": 56.985460, "long": 9.985583}
-        self.tomorrow = (datetime.today() + timedelta(days=0)).strftime("%Y-%m-%d")
-        self.tomorrow2 = (datetime.today() + timedelta(days=0)).strftime("%Y-%m-%d")
-        self.API_URL=f"https://api.open-meteo.com/v1/metno?latitude={self.POSITION['lat']}&longitude={self.POSITION['long']}&hourly=temperature_2m&timezone=Europe%2FBerlin&start_date={self.tomorrow}&end_date={self.tomorrow2}"
+        self.tomorrow = (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+        self.API_URL=f"https://api.open-meteo.com/v1/metno?latitude={self.POSITION['lat']}&longitude={self.POSITION['long']}&hourly=temperature_2m&timezone=Europe%2FBerlin&start_date={self.tomorrow}&end_date={self.tomorrow}"
        
     def get_tempdata(self) -> dict:
         try:

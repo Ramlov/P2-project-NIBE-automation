@@ -45,7 +45,7 @@ while True:
                 turn_on = row[5]
 
                 if turn_on == "True":
-                    turn_on_value = 10
+                    turn_on_value = 5
                 elif turn_on == "Normal":
                     turn_on_value = 0
                 else:

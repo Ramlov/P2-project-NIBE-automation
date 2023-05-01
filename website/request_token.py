@@ -6,7 +6,7 @@ client_secret = '/xADpEzVVYraWKnP6lZvcbT2RX51N4TDSM34Lry+w7w='
 
 redirect_url = 'https://ramlov.org/nibeuplink/oauth2callback/index.php'
 
-query_scope = 'READSYSTEM'
+query_scope = 'WRITESYSTEM'
 unique_state = 'STATESTRING'
 token_url = 'https://api.nibeuplink.com/oauth/token'
 authorize_url = 'https://api.nibeuplink.com/oauth/authorize'

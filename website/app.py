@@ -5,6 +5,7 @@ from plotly.subplots import make_subplots
 import pymysql, json
 import pandas as pd
 import datetime
+import os
 
 helpers = helper()
 
@@ -26,9 +27,18 @@ def home():
     if request.method == 'POST' and 'submit' in request.form:
         temp = request.form['temp']
         helpers.put_request(parameter_id=47011, value=temp)
-        return render_template('index.html',heating_chart=chart, date=date_string, varme_temperatur=temp, return_temp=helpers.get_request(40012,"SYSTEM_1"), pump_speed=helpers.get_request(43437,"STATUS"), flow_temp=helpers.get_request(40014,"STATUS"), udendors_temperatur=helpers.get_request(40004,"STATUS"), last_usage_kwh=round(helpers.usage(24)[0],2), last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), last7_usage_dkk=round(helpers.usage(168)[2],2))
+        return render_template('index.html',heating_chart=chart, date=date_string, 
+                                varme_temperatur=temp, return_temp=helpers.get_request(40012,"SYSTEM_1"), 
+                                pump_speed=helpers.get_request(43437,"STATUS"), flow_temp=helpers.get_request(40014,"STATUS"), 
+                                udendors_temperatur=helpers.get_request(40004,"STATUS"), last_usage_kwh=round(helpers.usage(24)[0],2), 
+                                last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), 
+                                last7_usage_dkk=round(helpers.usage(168)[2],2))
     else:
-        return render_template('index.html',heating_chart=chart, date=date_string, return_temp=helpers.get_request(40012,"SYSTEM_1"), pump_speed=helpers.get_request(43437,"STATUS"), flow_temp=helpers.get_request(40014,"STATUS"), udendors_temperatur=helpers.get_request(40004,"STATUS"), last_usage_kwh=round(helpers.usage(24)[0],2), last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), last7_usage_dkk=round(helpers.usage(168)[2],2))
+        return render_template('index.html',heating_chart=chart, date=date_string, return_temp=helpers.get_request(40012,"SYSTEM_1"), 
+                                pump_speed=helpers.get_request(43437,"STATUS"), flow_temp=helpers.get_request(40014,"STATUS"), 
+                                udendors_temperatur=helpers.get_request(40004,"STATUS"), last_usage_kwh=round(helpers.usage(24)[0],2), 
+                                last_usage_dkk=round(helpers.usage(24)[2],2), last7_usage_kwh=round(helpers.usage(168)[0],2), 
+                                last7_usage_dkk=round(helpers.usage(168)[2],2))
 
 @app.route('/heating_chart')
 def heating_chart():
@@ -53,7 +63,6 @@ def heating_chart():
 
     chart = fig.to_html(full_html=False)
     return chart
-    #return render_template('index.html', heating_chart=chart)
 
 
 @app.route('/chart')
@@ -81,7 +90,11 @@ def chart():
     fig.update_xaxes(range=[last_7_days, pd.Timestamp.now()])
     chart = fig.to_html(full_html=False)
 
-    return render_template('usage/chart.html', chart=chart)
+    return render_template('usage/chart.html', chart=chart,
+                            usage1daydkk=round(helpers.usage(24)[2],2), usage1daykwh=round(helpers.usage(24)[0],2),
+                            usage7daydkk=round(helpers.usage(168)[2],2), usage7daykwh=round(helpers.usage(168)[0],2),
+                            usage30daydkk=round(helpers.usage(720)[2],2), usage30daykwh=round(helpers.usage(720)[0],2),
+                            usage365daydkk=round(helpers.usage(8760)[2],2), usage365daykwh=round(helpers.usage(8760)[0],2))
 
 
 @app.route('/toggle', methods=['POST'])
@@ -96,7 +109,9 @@ def settings():
         schedule = request.get_json()['schedule']
         df = pd.DataFrame({'Hour': range(24), 'Value': schedule})
         df['Value'] = df['Value'].apply(lambda x: min(x, 10))
-        df.to_csv('schedule.csv', index=False)
+        save_path = '/root/NIBE/'
+        file_path = os.path.join(save_path, 'schedule.csv')
+        df.to_csv(file_path, index=False)
         return 'Schedule saved to CSV'
     else:
         return render_template('settings/settings.html')
@@ -104,6 +119,5 @@ def settings():
 
 if __name__ == '__main__':
     from waitress import serve
-    #serve(app, host="0.0.0.0", port=5000)
-    app.run(host='0.0.0.0', port=5000, debug=True)
-   #app.run(debug=True)
+    serve(app, host="0.0.0.0", port=5000)
+    #app.run(host='0.0.0.0', port=5000, debug=True)

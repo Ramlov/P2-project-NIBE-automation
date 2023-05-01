@@ -8,9 +8,6 @@ import requests
 from price import ElectricityPricing
 
 class PulseDetector:
-    class DatabaseConnectionError(Exception):
-        pass
-
     def __init__(self, db_host, db_user, db_password, db_name, discord_webhook_url):
         """
         Initialize PulseDetector instance.
@@ -153,8 +150,9 @@ class PulseDetector:
                             cursor.close()
                             db.close()
                             self.pulse_count = 0
+
                             payload = json.dumps(data)
-                            response = requests.post(self.discord, data=payload, headers={"Content-Type": "application/json"})
+                            requests.post(self.discord, data=payload, headers={"Content-Type": "application/json"})
                             break
                         except Exception as e:
                             sleep(0.5)

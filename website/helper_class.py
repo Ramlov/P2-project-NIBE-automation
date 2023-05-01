@@ -87,7 +87,7 @@ class helper:
         start_time = now - timedelta(hours=hours_back)
         end_time = now
 
-        query = f"SELECT value, price FROM pulse_data WHERE time BETWEEN '{start_time}' AND '{end_time}'"
+        query = f"SELECT value, price, value * price as value_price FROM pulse_data WHERE time BETWEEN '{start_time}' AND '{end_time}'"
         db_cursor.execute(query)
         rows = db_cursor.fetchall()
         db_cursor.close()
@@ -95,5 +95,9 @@ class helper:
 
         sum_value = sum(row[0] for row in rows) / 1000
         avg_price = sum(row[1] for row in rows) / len(rows)
-        total = avg_price * sum_value
-        return sum_value, avg_price, total
+        value_price_total = ((sum(row[2] for row in rows)/1000)/sum_value)
+        total = value_price_total * sum_value
+
+
+
+        return sum_value, avg_price, total, value_price_total
