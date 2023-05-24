@@ -1,14 +1,2 @@
-
-NIBE_API/id_secret.txt
-NIBE_API/.NIBE_Uplink_API_Token.json
-test.py
-Database_connect.py
-energy/database.txt
-NIBE_API/request_token.py
-.NIBE_Uplink_API_Token.json
-secret/database.txt
-secret/id_secret.txt
-secret/webhook.txt
-NIBE_API/.NIBE_Uplink_API_Token_PUT.json
 testing/exalted-iridium-384920-14a0f16a5466.json
 testing/exalted-iridium-384920-584d2921d9a2.json

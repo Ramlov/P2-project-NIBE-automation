@@ -21,6 +21,7 @@ pip install -r requirements.txt
 ## Usage
 Connect the pulse to the Raspberry Pi Using a GPIO configured in `config.json`
 Run the main.py script to collect pulse data from a sensor and update the pulse count.
+Run the updatetime.py script once every day or so through crontab to update the time.
 
 ## Configuration
 Update the configuration settings in `config.json`
