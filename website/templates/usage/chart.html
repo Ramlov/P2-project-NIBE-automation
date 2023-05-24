@@ -17,11 +17,33 @@
           </ul>
         </nav>
       </header>
+      <section id="info-boxes">
+        <div class="info-box">
+          <h3>Last day usage</h2>
+          <p> {{ usage1daykwh }} KwH <br> {{ usage1daydkk }} DKK</p>
+        </div>
+        <div class="info-box">
+          <h3>Last week usage</h2>
+            <p> {{ usage7daykwh }} KwH <br> {{ usage7daydkk }} DKK</p>
+        </div>
+        <div class="info-box">
+          <h3>Last month usage</h2>
+            <p> {{ usage30daykwh }} KwH <br> {{ usage30daydkk }} DKK</p>
+        </div>
+        <div class="info-box">
+          <h3>Last year usage</h2>
+            <p> {{ usage365daykwh }} KwH <br> {{ usage365daydkk }} DKK</p>
+        </div>
+      </section>
     <h1>Pulse Data Chart</h1>
     <div id="chart-container">
         <!-- Placeholder for the chart -->
         {{ chart|safe }}
     </div>
 
+
+    <footer>
+      <p>©Copyright <a href="https://github.com/Ramlov/">AAU Group 251</a></p>
+    </footer>
 </body>
 </html>

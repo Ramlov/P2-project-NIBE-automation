@@ -7,7 +7,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 def usage():
-    with open('testing/config.json', 'r') as file:
+    with open('config.json', 'r') as file:
         config = json.load(file)
     db_host = config['database']['host']
     db_name = config['database']['dbname']
@@ -55,7 +55,7 @@ def usage():
 
 
 def pushdata():
-    creds_path = 'testing/exalted-iridium-384920-584d2921d9a2.json'
+    creds_path = 'exalted-iridium-384920-584d2921d9a2.json'
     doc_id = '1ArcpUMjb5Tu5EK5GQlwZehQ2oUJnGYjcET4OzTKqhGM'
     worksheet_name = 'Data'
     csv_path = 'usage.csv'
@@ -71,5 +71,5 @@ def pushdata():
         data = list(reader)
         worksheet.append_rows(data)
         print('Data inserted successfully.')
-print(usage())
+#print(usage())
 pushdata()

@@ -1,6 +1,8 @@
 from os import path
 from json import dump, load
 from requests_oauthlib import OAuth2Session
+import time
+
 
 HTTP_STATUS_OK = 200
 client_id = '59682261e9f04ab9a867eb7cfa93e840' # (32 hex digits)
@@ -19,9 +21,14 @@ with open(token_filename, 'r') as token_file:
 
 extra_args = {'client_id': client_id, 'client_secret': client_secret}
 
+start_time = time.time()
 nibeuplink = OAuth2Session(client_id=client_id, token=token, auto_refresh_url=token_url, auto_refresh_kwargs=extra_args, token_updater=token_saver)
 
 response = nibeuplink.get('https://api.nibeuplink.com/api/v1/systems/138372/serviceinfo/categories/status?categoryId=STATUS')
+end_time = time.time()
+elapsed_time = end_time - start_time
+print(f"Latency API GET request: {elapsed_time} seconds \nCall was made to https://api.nibeuplink.com ")
+
 if response.status_code == HTTP_STATUS_OK:
     objects = response.json()
     #print(f'Udendørs temperatur {objects[1]["displayValue"]}')

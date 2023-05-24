@@ -1,14 +1,14 @@
 {
-    "database": {
-      "host": "mysql110.unoeuro.com",
-      "dbname": "ramlov_org_db",
-      "username": "ramlov_org",
-      "password": "a9hpyFH4cGdf"
-    },
-    "api": {
-      "client_id": "59682261e9f04ab9a867eb7cfa93e840",
-      "client_secret": "/xADpEzVVYraWKnP6lZvcbT2RX51N4TDSM34Lry+w7w=",
-      "token_filename": "NIBE_Uplink_API_Token_PUT.json",
-      "token_url": "https://api.nibeuplink.com/oauth/token"
-  }
-  }
+  "database": {
+    "host": "mysql110.unoeuro.com",
+    "dbname": "ramlov_org_db",
+    "username": "ramlov_org",
+    "password": "a9hpyFH4cGdf"
+  },
+  "api": {
+    "client_id": "59682261e9f04ab9a867eb7cfa93e840",
+    "client_secret": "/xADpEzVVYraWKnP6lZvcbT2RX51N4TDSM34Lry+w7w=",
+    "token_filename": "NIBE_Uplink_API_Token_PUT.json",
+    "token_url": "https://api.nibeuplink.com/oauth/token"
+}
+}

@@ -42,7 +42,7 @@ class ElectricityPricing:
             df = pd.json_normalize(df['records'].apply(eval))
             df = df[['HourDK', 'SpotPriceDKK']]
             df = df.sort_values(by=['HourDK'], ascending=True)
-            df['SpotPriceDKK'] = df['SpotPriceDKK'] / 1000 #Dividere med 1000 fordi prisen fra API er i mWh
+            df['SpotPriceDKK'] = df['SpotPriceDKK'] / 1000
             self.add_to_price((datetime.now().month), df)
             df.to_csv('pricedata.csv', index=False)
         except Exception as e:
