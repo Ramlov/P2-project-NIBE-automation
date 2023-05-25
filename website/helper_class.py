@@ -2,10 +2,11 @@ from json import dump, load
 from requests_oauthlib import OAuth2Session
 from datetime import datetime, timedelta
 import pymysql
+import csv
 
 class helper:
     def __init__(self):
-        with open('config.json', 'r') as f:
+        with open('/root/NIBE-Website/config.json', 'r') as f:
             config = load(f)
         self.HTTP_STATUS_OK = config['api']['HTTP_STATUS_OK']
         self.client_id = config['api']['client_id']
@@ -98,6 +99,39 @@ class helper:
         value_price_total = ((sum(row[2] for row in rows)/1000)/sum_value)
         total = value_price_total * sum_value
 
-
-
         return sum_value, avg_price, total, value_price_total
+    
+
+    def updatesche(self):
+        with open('config.json', 'r') as file:
+            config = load(file)
+        db_host = config['database']['host']
+        db_name = config['database']['dbname']
+        db_username = config['database']['username']
+        db_password = config['database']['password']
+
+        conn = pymysql.connect(host=db_host, user=db_username, password=db_password, db=db_name)
+
+
+        try:
+            cursor = conn.cursor()
+            with open('/root/NIBE/schedule.csv', 'r') as csvfile:
+                reader = csv.DictReader(csvfile)
+
+                for row in reader:
+                    hour = int(row['Hour'])
+                    value = int(row['Value']) 
+                    if value != 0:
+                        timestamp = datetime.now().replace(hour=hour, minute=0, second=0).strftime("%Y-%m-%d %H:%M:%S")
+                        sql = f"UPDATE heating SET TurnOn = {value} WHERE HourDK = %s"
+                        cursor.execute(sql, (timestamp,))
+
+            conn.commit()
+
+        except Exception as e:
+            conn.rollback()
+            print(f"Error: {e}")
+
+        finally:
+            cursor.close()
+            conn.close()

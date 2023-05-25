@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
 
-    // Add blur event listener to update value to 10 if it exceeds 10
     inputField.addEventListener("blur", function() {
       let value = parseInt(inputField.value);
       if (isNaN(value)) {
@@ -83,4 +82,11 @@ function saveSettings() {
   .catch(function(error) {
     console.error("Failed to save settings:", error);
   });
+  alert("Settings saved!");
+}
+
+function resetSettings(){
+  alert("Settings reset!");
+  fetch('/reset', {
+  })
 }

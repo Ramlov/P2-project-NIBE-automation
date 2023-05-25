@@ -6,6 +6,11 @@ import pymysql, json
 import pandas as pd
 import datetime
 import os
+import sys
+sys.path.append('/root/NIBE/')
+from push_data import push
+
+
 
 helpers = helper()
 
@@ -113,9 +118,18 @@ def settings():
         save_path = '/root/NIBE/'
         file_path = os.path.join(save_path, 'schedule.csv')
         df.to_csv(file_path, index=False)
+        helpers.updatesche()
         return 'Schedule saved to CSV'
     else:
         return render_template('settings/settings.html')
+
+
+@app.route('/reset', methods=['GET', 'POST'])
+def reset():
+    push()
+    return render_template('settings/settings.html')
+
+
 
 
 if __name__ == '__main__':

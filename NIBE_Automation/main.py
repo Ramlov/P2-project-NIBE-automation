@@ -39,11 +39,11 @@ def gettime():
 def getstatus(index):
     try:
         df = pd.read_csv('schedule.csv')
-        try:
-            value = df['Value'].iloc[index]
+        value = df['Value'].iloc[index]
+        if (int(value) != 0):
+            print("Værdi er", type(value))
             return(value)
-        except Exception as e:
-            return(e)
+        raise ValueError()
     except:
         df = pd.read_csv('data.csv')
         try:

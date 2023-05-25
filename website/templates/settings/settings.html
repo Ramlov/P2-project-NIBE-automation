@@ -22,11 +22,14 @@
     <form id="settings-form">
       <div class="row">
         <script>
-          for (let hour = 1; hour <= 24; hour++) {
+          for (let hour = 0; hour < 24; hour++) {
+            const startHour = hour.toString().padStart(2, '0');
+            const endHour = ((hour + 1) % 24).toString().padStart(2, '0');
+            
             document.write(`
               <div class="col-md-2">
-                <label for="value-${hour}">Hour ${hour}</label>
-                <input type="number" min="-10" max="10" id="value-${hour}" name="value-${hour}" class="form-control" value="0" required>
+                <label for="value-${startHour}-${endHour}">Hour ${startHour}-${endHour}</label>
+                <input type="number" min="-10" max="10" id="value-${startHour}-${endHour}" name="value-${startHour}-${endHour}" class="form-control" value="0" required>
               </div>
             `);
           }
@@ -34,6 +37,7 @@
       </div>
       <div class="form-group mt-3">
         <button type="button" onclick="saveSettings()" class="btn btn-primary">Save Settings</button>
+        <button type="button" onclick="resetSettings()" class="btn btn-primary">Reset Settings</button>
       </div>
     </form>
   </div>
