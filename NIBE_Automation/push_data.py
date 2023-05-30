@@ -71,7 +71,7 @@ def push():
     conn.close()
 
     payload = json.dumps(data)
-    requests.post("https://discord.com/api/webhooks/1092461466000576764/TZuzacO5VbowCLekKPDdESvZxK4UBmLVVcNWc9U5J4CuqYXarEVdLB-A02Vu4PRJMtjz", data=payload, headers={"Content-Type": "application/json"})
+    requests.post(" ", data=payload, headers={"Content-Type": "application/json"})
 
 if __name__ == "__main__":
     push()

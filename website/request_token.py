@@ -2,8 +2,8 @@ from os import path
 from json import dump
 from requests_oauthlib import OAuth2Session
 
-client_id = '59682261e9f04ab9a867eb7cfa93e840'
-client_secret = '/xADpEzVVYraWKnP6lZvcbT2RX51N4TDSM34Lry+w7w='
+client_id = ' '
+client_secret = ' '
 
 redirect_url = 'https://ramlov.org/nibeuplink/oauth2callback/index.php'
 
