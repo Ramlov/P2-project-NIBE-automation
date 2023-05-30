@@ -12,23 +12,22 @@ Overall, this system is a complex integration of hardware and software that leve
 
 ## File structure
 ```
-main
+📦 NIBE Automation
 ├─ .gitignore
 ├─ NIBE_API
 │  ├─ .DS_Store
-│  ├─ .NIBE_Uplink_API_Token_GET.json
 │  ├─ example_data.txt
 │  ├─ get_data.py
 │  ├─ get_parameters_for_categories_for_systems.py
 │  ├─ put_data.py
+│  ├─ request_token.py
 │  └─ requirements.txt
 ├─ NIBE_Automation
-│  ├─ NIBE_Uplink_API_Token_PUT.json
 │  ├─ config.json
-│  ├─ energy_temp_data.py
+│  ├─ data.csv
+│  ├─ energy_price.py
 │  ├─ main.py
 │  ├─ push_data.py
-│  ├─ relative_data.py
 │  └─ rename_file.py
 ├─ README.md
 ├─ RPi
@@ -38,18 +37,18 @@ main
 │  ├─ network_checker.py
 │  ├─ price.py
 │  ├─ pulse_detector.py
-│  └─ requirements.txt
+│  ├─ requirements.txt
+│  └─ updatetime.py
 ├─ testing
-│  ├─ collectdata.py
-│  └─ config.json
+│  ├─ config.json
+│  ├─ testdata.py
+│  └─ usage.csv
 └─ website
-   ├─ .NIBE_Uplink_API_Token_GET.json
-   ├─ .NIBE_Uplink_API_Token_PUT.json
-   ├─ __pycache__
-   │  └─ helper_class.cpython-310.pyc
+   ├─ .DS_Store
    ├─ app.py
    ├─ config.json
    ├─ helper_class.py
+   ├─ latency.txt
    ├─ request_token.py
    ├─ script_update_zero_price_thing.py
    ├─ static
