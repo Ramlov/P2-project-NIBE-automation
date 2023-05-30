@@ -6,3 +6,5 @@ NIBE_API/.NIBE_Uplink_API_Token_PUT.json
 NIBE_Automation/NIBE_Uplink_API_Token_PUT.json
 website/.NIBE_Uplink_API_Token_GET.json
 website/.NIBE_Uplink_API_Token_PUT.json
+.DS_Store
+.DS_Store
