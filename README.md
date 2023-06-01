@@ -8,7 +8,7 @@ The NIBE uplink API is used to control the heat pump. A Python program has been 
 Overall, this system is a complex integration of hardware and software that leverages advanced algorithms and APIs to optimize the heat pump's energy consumption in response to fluctuating energy prices. By using sophisticated techniques to calculate the optimal run time, the system can reduce energy costs and improve home comfort, making it a valuable addition to any energy-efficient home.
 
 
-#Live DEMO:
+# Live DEMO:
 <a href="http://nibe.ramlov.org">Website</a>
 
 ## File structure
