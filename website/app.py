@@ -26,6 +26,15 @@ db_password = config['database']['password']
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    """
+    Renders the home page.
+
+    Retrieves data from the Nibe Uplink API and the database to display on the home page.
+    Handles the form submission to update the heating temperature parameter.
+
+    Returns:
+        str: The rendered HTML template of the home page.
+    """
     now = datetime.datetime.now()
     date_string = "{} the {} of {}".format(now.strftime('%A'), now.strftime('%d'), now.strftime('%B'))
     chart = heating_chart()
@@ -47,6 +56,12 @@ def home():
 
 @app.route('/heating_chart')
 def heating_chart():
+    """
+    Retrieves data from the database and creates a heating chart.
+
+    Returns:
+        str: The HTML representation of the heating chart.
+    """
     conn = pymysql.connect(host=db_host, user=db_username, passwd=db_password, db=db_name)
     cursor = conn.cursor()
     cursor.execute("SELECT HourDK, SpotPriceDKK, TurnOn FROM heating")
@@ -72,6 +87,14 @@ def heating_chart():
 
 @app.route('/chart')
 def chart():
+    """
+    Renders the usage chart page.
+
+    Retrieves data from the database and creates a line chart to display the usage data.
+
+    Returns:
+        str: The rendered HTML template of the usage chart page.
+    """
     conn = pymysql.connect(host=db_host, user=db_username, passwd=db_password, db=db_name)
     cursor = conn.cursor()
     cursor.execute("SELECT time, value, price FROM pulse_data")
@@ -104,13 +127,28 @@ def chart():
 
 @app.route('/toggle', methods=['POST'])
 def toggle_button():
-    time = datetime.datetime.now()
+    """
+    Handles the toggle button request.
+
+    Updates the hot water boost parameter based on the value received from the request.
+
+    Returns:
+        dict: A JSON response indicating the success status.
+    """
     value = request.json['value']
     helpers.put_request(parameter_id="hot_water_boost", value=value)
     return {'status': 'success'}  # Return a JSON response if needed
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
+    """
+    Renders the settings page.
+
+    Saves the schedule to a CSV file if the request method is POST.
+
+    Returns:
+        str: The rendered HTML template of the settings page or a success message.
+    """
     if request.method == 'POST':
         schedule = request.get_json()['schedule']
         df = pd.DataFrame({'Hour': range(24), 'Value': schedule})
@@ -126,6 +164,14 @@ def settings():
 
 @app.route('/reset', methods=['GET', 'POST'])
 def reset():
+    """
+    Handles the reset request.
+
+    Pushes the data and returns the settings page.
+
+    Returns:
+        str: The rendered HTML template of the settings page.
+    """
     push()
     return render_template('settings/settings.html')
 

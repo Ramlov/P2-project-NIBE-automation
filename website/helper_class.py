@@ -6,6 +6,11 @@ import csv
 
 class helper:
     def __init__(self):
+        """
+        Initializes the helper class.
+
+        Reads the configuration from the 'config.json' file.
+        """
         with open('/root/NIBE-Website/config.json', 'r') as f:
             config = load(f)
         self.HTTP_STATUS_OK = config['api']['HTTP_STATUS_OK']
@@ -18,8 +23,24 @@ class helper:
         self.extra_args = {'client_id': self.client_id, 'client_secret': self.client_secret}
 
     def get_request(self, parameter_id,categoryId):
+        """
+        Makes a GET request to retrieve information from the Nibe Uplink API.
+
+        Args:
+            parameter_id (int): The parameter ID.
+            categoryId (int): The category ID.
+
+        Returns:
+            str: The display value of the requested parameter, or None if not found.
+        """
 
         def token_saver(token):
+            """
+            Saves the token to a file after making a request to the API.
+
+            Args:
+                token (str): The updated token.
+            """
             with open(self.token_filename_get, 'w') as token_file:
                 dump(token, token_file)
 
@@ -42,10 +63,25 @@ class helper:
 
 
     def put_request(self, parameter_id, value):
+        """
+        Makes a PUT request to update a parameter value in the Nibe Uplink API.
+
+        Args:
+            parameter_id (int): The parameter ID.
+            value: The value to be set for the parameter.
+
+        Returns:
+            str: The status of the HTTP request.
+        """
         status = None
         print("Has been run")
         def token_saver(token):
-            '''Token stuff, bruges til at opdatere token efter en request på api'''
+            """
+            Saves the token to a file after making a request to the API.
+
+            Args:
+                token (str): The updated token.
+            """
             with open(self.token_filename_put, 'w') as token_file:
                 dump(token, token_file)
 
@@ -74,6 +110,15 @@ class helper:
 
 
     def usage(self, hours_back):
+        """
+        Retrieves usage data from the database for a specified time period.
+
+        Args:
+            hours_back (int): The number of hours to go back in time.
+
+        Returns:
+            tuple: A tuple containing the sum value, average price, total cost, and bought price.
+        """
         with open('config.json', 'r') as file:
             config = load(file)
         db_host = config['database']['host']
@@ -103,6 +148,11 @@ class helper:
     
 
     def updatesche(self):
+        """
+        Updates a schedule in the database based on the schedule CSV file.
+
+        Reads the configuration from the 'config.json' file and updates the 'heating' table in the database.
+        """
         with open('config.json', 'r') as file:
             config = load(file)
         db_host = config['database']['host']
