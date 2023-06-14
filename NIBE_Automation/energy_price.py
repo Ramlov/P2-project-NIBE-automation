@@ -16,6 +16,15 @@ class ElectricityPricing:
         self.ELECTRIC_COMPANY_RATE = 0
 
     def get_time(self):
+        """
+        Gets the current time from the system RTC.
+
+        Args:
+            None
+
+        Returns:
+            tuple: A tuple containing the date of tomorrow, the day after tomorrow and the hour 00:00.
+        """
         try:
             tomorrow = date.today() + timedelta(days=1)
             tomorrow2 = date.today() + timedelta(days=2)
@@ -26,6 +35,16 @@ class ElectricityPricing:
             return None, None, None
 
     def get_pricedata(self):
+        """
+        Retrieves electricity prices for the forthcoming day and formats it into a csv-table and saves it as pricedata.csv
+        Fees and tarifs are added to the price list using self.add_to_price()
+
+        Args:
+            None
+
+        Returns:
+            None, output is saved to pricedata.csv
+        """
         try:
             tomorrow, tomorrow2, hour = self.get_time()
             params = {
@@ -48,7 +67,17 @@ class ElectricityPricing:
         except Exception as e:
             print(f"An error occurred while getting price data: {e}")
         
-    def add_to_price(self, month,  df):
+    def add_to_price(self, month, df):
+        """
+        Appends fees and tarifs to a dataframe. 
+
+        Args:
+            month (int): the current month in number-format; eg. 3 = mar and 12 = dec.
+            df (pandas DataFrame): A table with pricedata. The column "SpotPriceDKK" contains the hourly electricity prices
+
+        Returns:
+            None, output is saved to pricedata.csv
+        """
         try:
             df['SpotPriceDKK'] *= 1.25
             if 1 <= int(month) <= 3 or 10 <= int(month) <= 12:
@@ -66,11 +95,20 @@ class ElectricityPricing:
 
 class Temperature:
     def __init__(self) -> None:
-        self.POSITION = {"lat": , "long": }
+        self.POSITION = {"lat": 12.345678, "long": 98.765432} # <-------------------------------------------------------------------- # Enter coordinates of location.
         self.tomorrow = (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
         self.API_URL=f"https://api.open-meteo.com/v1/metno?latitude={self.POSITION['lat']}&longitude={self.POSITION['long']}&hourly=temperature_2m&timezone=Europe%2FBerlin&start_date={self.tomorrow}&end_date={self.tomorrow}"
        
     def get_tempdata(self) -> dict:
+        """
+        Retrieves temperature forecast for the forthcoming day
+
+        Args:
+            None
+
+        Returns:
+            tempdata as a json-object.
+        """
         try:
             r = requests.get(self.API_URL)
             tempdata = r.json()
@@ -79,6 +117,15 @@ class Temperature:
             print(f"An error occurred while getting tempdata: {e}")
 
     def sort_tempdata(self, raw_data) -> dict:
+        """
+        Formats temperature data into a csv-table and sorts it after ascending hour.
+
+        Args:
+            raw_data (json): raw temperature data fetched in self.get_tempdata()
+
+        Returns:
+            tempdata as key-value pairs (dictionary) with the hour as the key and the temp as the value
+        """
         try:
             tempdict = {"HourDK": raw_data["hourly"]["time"][:24],
                         "Temperature": raw_data["hourly"]["temperature_2m"][:24]}
@@ -88,6 +135,15 @@ class Temperature:
             return None
 
     def write_csv(self, datalist) -> None:
+        """
+        Saves the input datalist to a csv named tempdata.csv
+
+        Args:
+            datalist (dictionary): A key-value dictionary containting HourDK - hours and Temperature - forecasted temperatures.
+
+        Returns:
+            None, output is saved to tempdata.csv
+        """
         try:
             df = pd.DataFrame(datalist)
             df = df.sort_values(by=["HourDK"], ascending=True)
@@ -97,6 +153,15 @@ class Temperature:
 
 class Combine:
     def __init__(self) -> None:
+        """
+        Constructs a combine-object. Instantiates Temperature- and ElectricityPricing-objects and uses them to fetch data.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
         try:
             temp = Temperature()
             temp.write_csv(temp.sort_tempdata(temp.get_tempdata()))
@@ -106,6 +171,17 @@ class Combine:
             print(f"An error occurred while instantiating class Combine: {e}")
 
     def combine_data(self) -> None:
+        """
+        Loads data from Temperature- and ElectricityPricing-objects that are saved as csv-files and combines them to a new table.
+        Calculates COP(estimated) and CHP. From this a new column, "TurnOn" is filled with 'False', 'True' or 'Normal' according to the CHP.
+        The table is saved as the csv-file combineddata.csv
+
+        Args:
+            None
+
+        Returns:
+            None, data is saved in combineddata.csv
+        """
         try:
             df_price = pd.read_csv('pricedata.csv')
             df_temp = pd.read_csv('tempdata.csv')
@@ -127,6 +203,15 @@ class Combine:
             print(f"An error occurred while combining price- and tempdata: {e}")
 
     def check_data(self):
+        """
+        Checks the integrity (length) of the submitted data.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """        
         data = {
             "username": "NIBE Bot",
             "embeds": [
@@ -152,8 +237,6 @@ class Combine:
             except:
                 sleep(5*60)
                 self.combine_data()
-
-
 
 if __name__ == "__main__":
     comb = Combine()
