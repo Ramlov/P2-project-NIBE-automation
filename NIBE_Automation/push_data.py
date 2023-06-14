@@ -13,6 +13,18 @@ helperclass = helper()
 
 
 def push():
+    """
+    Pushes a new heating schedule to the server and sends a notification.
+
+    This function reads data from a CSV file, inserts it into a database, and then sends a notification to the server
+    indicating that a new heating schedule has been pushed.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
     data = {
         "username": "NIBE Bot",
         "embeds": [
