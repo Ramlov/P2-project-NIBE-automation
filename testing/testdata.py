@@ -7,6 +7,12 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 def usage():
+    """
+    Calculate usage statistics based on data from a database.
+
+    Returns:
+        str: Usage statistics formatted as a string.
+    """
     with open('config.json', 'r') as file:
         config = json.load(file)
     db_host = config['database']['host']
@@ -55,6 +61,12 @@ def usage():
 
 
 def pushdata():
+    """
+    Push the usage data to a Google Sheet.
+
+    Raises:
+        gspread.exceptions.APIError: If there is an error communicating with the Google Sheets API.
+    """
     creds_path = 'exalted-iridium-384920-584d2921d9a2.json'
     doc_id = '1ArcpUMjb5Tu5EK5GQlwZehQ2oUJnGYjcET4OzTKqhGM'
     worksheet_name = 'Data'
