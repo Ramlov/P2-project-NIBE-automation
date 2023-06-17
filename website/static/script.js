@@ -90,3 +90,5 @@ function resetSettings(){
   fetch('/reset', {
   })
 }
+
+

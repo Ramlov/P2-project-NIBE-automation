@@ -33,7 +33,6 @@ class helper:
         Returns:
             str: The display value of the requested parameter, or None if not found.
         """
-
         def token_saver(token):
             """
             Saves the token to a file after making a request to the API.

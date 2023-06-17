@@ -1,17 +1,17 @@
 {
   "database": {
-    "host": " ",
-    "dbname": " ",
-    "username": " ",
-    "password": " "
+    "host": "",
+    "dbname": "",
+    "username": "",
+    "password": ""
   },
   "api": {
     "HTTP_STATUS_OK": 200,
-    "client_id": " ",
-    "client_secret": " ",
-    "system_id": "138372",
-    "token_filename_get": ".NIBE_Uplink_API_Token_GET.json",
-    "token_filename_put": ".NIBE_Uplink_API_Token_PUT.json",
-    "token_url_oauth": "https://api.nibeuplink.com/oauth/token"
+    "client_id": "",
+    "client_secret": "",
+    "system_id": "",
+    "token_filename_get": "",
+    "token_filename_put": "",
+    "token_url_oauth": ""
   }
 }

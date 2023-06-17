@@ -17,31 +17,54 @@
           </ul>
         </nav>
       </header>
+
       <section id="info-boxes">
         <div class="info-box">
-          <h3>Last day usage</h2>
-          <p> {{ usage1daykwh }} KwH <br> {{ usage1daydkk }} DKK</p>
+          <h3>Last day usage</h3>
+          <p> {{ usage1daykwh }} KwH <br> {{ usage1daydkk }} DKK </p>
+          <p> <b>Saved amount:</b> <span id="result1day"></span> DKK </p>
         </div>
         <div class="info-box">
           <h3>Last week usage</h2>
             <p> {{ usage7daykwh }} KwH <br> {{ usage7daydkk }} DKK</p>
+            <p> <b>Saved amount:</b> <span id="result7day"></span> DKK </p>
         </div>
         <div class="info-box">
           <h3>Last month usage</h2>
             <p> {{ usage30daykwh }} KwH <br> {{ usage30daydkk }} DKK</p>
+            <p> <b>Saved amount:</b> <span id="result30day"></span> DKK </p>
         </div>
         <div class="info-box">
           <h3>Last year usage</h2>
-            <p> {{ usage365daykwh }} KwH <br> {{ usage365daydkk }} DKK</p>
+          <p> {{ usage365daykwh }} KwH <br> {{ usage365daydkk }} DKK </p>
+          <p> <b>Saved amount:</b> <span id="result365day"></span> DKK </p>
         </div>
       </section>
+    <script>
+      
+      var usages = [
+      { id: "result1day", value: {{ usage1daydkk }} },
+      { id: "result7day", value: {{ usage7daydkk }} },
+      { id: "result30day", value: {{ usage30daydkk }} },
+      { id: "result365day", value: {{ usage365daydkk }} }
+    ];
+
+    for (var i = 0; i < usages.length; i++) {
+      var usage = usages[i];
+      document.getElementById(usage.id).innerHTML = (0.45 * usage.value).toFixed(2);
+    }
+    </script>
+
+
     <h1>Pulse Data Chart</h1>
     <div id="chart-container">
         <!-- Placeholder for the chart -->
         {{ chart|safe }}
     </div>
 
-
+    <div id="disclaimer">
+      <p> <h4>Disclaimer: </h4> <i>Please note that the savings mentioned are purely theoretical and are based solely on a comprehensive analysis. Further testing is therefore necessary in order to establish the savings validity. <br> The calculation of the savings is based on a comparison between the normal system on the heat pump and our intelligent control system.</i></p>
+    </div>
     <footer>
       <p>©Copyright <a href="https://github.com/Ramlov/">AAU Group 251</a></p>
     </footer>
