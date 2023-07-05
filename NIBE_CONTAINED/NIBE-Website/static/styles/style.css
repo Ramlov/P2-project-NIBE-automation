@@ -1,0 +1,276 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 1rem;
+}
+
+header h1 {
+  margin: 0;
+}
+  
+.bold-symbol {
+  font-weight: bold;
+}
+
+#disclaimer {
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+/* Info boxes styles */
+#info-boxes {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.info-box {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.info-box h2 {
+  font-size: 1.5rem;
+}
+
+.info-box p {
+  margin-top: 0.5rem;
+}
+
+.data-value {
+  font-size: 3rem;
+  margin: 0.5rem 0;
+}
+
+.data-unit {
+  font-size: 1rem;
+}
+
+#graph-placeholder {
+  margin: 2rem;
+  text-align: center;
+}
+
+#graph-container {
+  width: 100%;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  padding: 1rem;
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  /* Info boxes styles for tablet and larger screens */
+  #info-boxes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  /* Info boxes styles for mobile devices in portrait mode */
+  #info-boxes {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  /* Info boxes styles for desktop and larger screens */
+  #info-boxes {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Navigation styles */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .logo a {
+    text-decoration: none; /* Removes underlines */
+    color: inherit; /* Inherits color from parent element (assuming it's not styled elsewhere) */
+    cursor: pointer; /* Adds pointer cursor on hover for better usability */
+  }
+
+  .nav-links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-links li {
+    margin-left: 1rem;
+  }
+  
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+
+/*knap */
+  .btn {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+  }
+
+  .btn.active {
+    background-color: #22ff00;
+  }
+
+
+
+  .vertical-align {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-between;
+  }
+  
+  .vertical-align .col-md-4 {
+    flex-basis: 30%;
+    margin: 10px;
+  }
+  
+  .vertical-align .col-md-4 label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .vertical-align .save-button {
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+  }
+
+
+
+
+  fieldset {
+    margin: 0;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  legend {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group {
+    margin-top: 1rem;
+    text-align: right;
+  }
+  
+  .btn-primary {
+    margin-right: 0.5rem;
+  }
+
+
+.settings-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.settings-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.settings-label {
+  flex: 1;
+  text-align: right;
+  margin-right: 1rem;
+}
+
+.settings-input {
+  flex: 2;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.settings-input:focus {
+  border-color: dodgerblue;
+}
+
+.settings-button {
+  margin-top: 1rem;
+}
+
+/* Additional styles for form submission button */
+input[type="submit"] {
+  display: inline-block;
+  padding: 8px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+

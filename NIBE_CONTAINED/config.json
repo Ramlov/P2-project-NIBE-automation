@@ -1,0 +1,23 @@
+{
+    "api": {
+        "HTTP_STATUS_OK": 200,
+        "client_id": "59682261e9f04ab9a867eb7cfa93e840",
+        "client_secret": "/xADpEzVVYraWKnP6lZvcbT2RX51N4TDSM34Lry+w7w=",
+        "system_id": "138372",
+        "token_filename_get": "../.NIBE_Uplink_API_Token_GET.json",
+        "token_filename_put": "../.NIBE_Uplink_API_Token_PUT.json",
+        "token_url_oauth": "https://api.nibeuplink.com/oauth/token"
+    },
+    "database": {
+        "db_name": "../ramlov.db"
+    },
+    "network": {
+        "ssid": "Wifi",
+        "psk": "Wifi12345",
+        "discord_webhook_url": "https://discord.com/api/webhooks/1082343407294353489/oTED7SyRk5sPVSqkF2lz4hOSqsMaoyRMNNIfhF5TP3Lzqo-GTwBAtoCyyVBEUtXkG3fK"
+    },
+    "raspberrypi": {
+        "pulse_pin": "24",
+        "update_interval": "[15, 30, 45, 59]"
+    }
+}

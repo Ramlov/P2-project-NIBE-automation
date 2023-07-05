@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Heat Pump Control Panel</title>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+        <link rel="icon" href="{{ url_for('favicon') }}" type="image/x-icon">
+
+    </head>
+
+    <body>
+        <header>
+          <nav>
+            <div class="logo"><a href="/">Heat Pump Dashboard</a></div>
+            <ul class="nav-links">
+              <li><a href="/">Home</a></li>
+              <li><a href="/chart">Usage</a></li>
+              <li><a href="/schedule">Schedule</a></li>
+              <li><a href="/settings">Settings</a></li>
+            </ul>
+          </nav>
+        </header>
+        <section id="info-boxes">
+          <div class="info-box">
+            <h2>Outdoor Temperature</h2>
+            <p>Current outdoor temperature:  {{ udendors_temperatur }}</p>
+          </div>
+          <div class="info-box">
+            <h2>Last 24 hour usage</h2>
+            <p> {{ last_usage_kwh }} KwH <br> {{ last_usage_dkk }} DKK</p>
+          </div>
+          <div class="info-box">
+            <h2>Last 7 days usage</h2>
+            <p> {{ last7_usage_kwh }} KwH <br> {{ last7_usage_dkk }} DKK</p>
+          </div>
+          <div class="info-box">
+            <h2>Temporary heating boost</h2>
+            <p><button id="toggleBtn" class="btn">Turn on</button></p>
+          </div>
+          <div class="info-box">
+            <h2>Flow Temperature</h2>
+            <p>{{ flow_temp }}</p>
+          </div>
+          <div class="info-box">
+            <h2>Return Temperature</h2>
+            <p>{{ return_temp }}</p>
+          </div>
+          <div class="info-box">
+            <h2>Pump Speed Heating</h2>
+            <p> {{ pump_speed }} </p>
+          </div>
+          <div class="info-box">
+            <h2>Climate System adjustment</h2>
+            <form action="/" method="post" style="display: flex; align-items: center;">
+                <label for="temp">Temperature:</label>
+                <input type="range" id="temp" name="temp" min="-10" max="10" value="{{ varme_temperatur }}" oninput="document.getElementById('temp-value').innerHTML = this.value;" style="flex: 1;">
+                <span id="temp-value">{{ varme_temperatur }} 0</span> <p>°</p>
+                <input type="hidden" name="submitted" value="true">
+                <input type="submit" name="submit" value="Submit" class="btn" style="margin-left: 10px;">    
+              </form>
+              
+          </div>
+        </section>
+        <section id="graph-placeholder">
+          <h2>Heating Schedule for {{ date }}</h2>
+          <div id="graph-container">
+              {{ heating_chart|safe }}
+          </div>
+        </section>
+        <footer>
+          <p>©Copyright <a href="https://github.com/Ramlov/">Mathias Ramlov</a></p>
+        </footer>
+
+        <script src="/static/script.js"></script
+      </body>
+</html>

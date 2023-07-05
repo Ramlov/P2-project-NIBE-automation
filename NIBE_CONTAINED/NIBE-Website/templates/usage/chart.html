@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pulse Data Chart</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <!-- Include Plotly.js library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="icon" href="{{ url_for('favicon') }}" type="image/x-icon">
+
+</head>
+<body>
+    <header>
+        <nav>
+          <div class="logo"><a href="/">Heat Pump Dashboard</a></div>
+          <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/chart">Usage</a></li>
+            <li><a href="/schedule">Schedule</a></li>
+            <li><a href="/settings">Settings</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <section id="info-boxes">
+        <div class="info-box">
+          <h3>Last day usage</h3>
+          <p> {{ usage1daykwh }} KwH <br> {{ usage1daydkk }} DKK </p>
+          <p> <b>Saved amount:</b> {{ saved1day }} DKK </p>
+        </div>
+        <div class="info-box">
+          <h3>Last week usage</h2>
+            <p> {{ usage7daykwh }} KwH <br> {{ usage7daydkk }} DKK</p>
+            <p> <b>Saved amount:</b> {{ saved7day }} DKK </p>
+        </div>
+        <div class="info-box">
+          <h3>Last month usage</h2>
+            <p> {{ usage30daykwh }} KwH <br> {{ usage30daydkk }} DKK</p>
+            <p> <b>Saved amount:</b> {{ saved30day }} DKK </p>
+        </div>
+        <div class="info-box">
+          <h3>Last year usage</h2>
+          <p> {{ usage365daykwh }} KwH <br> {{ usage365daydkk }} DKK </p>
+          <p> <b>Saved amount:</b> <span id="result365day"></span> DKK </p>
+        </div>
+      </section>
+    <script>
+      
+      var usages = [
+      { id: "result365day", value: {{ usage365daydkk }} }
+    ];
+
+    for (var i = 0; i < usages.length; i++) {
+      var usage = usages[i];
+      document.getElementById(usage.id).innerHTML = (0.54 * usage.value).toFixed(2);
+    }
+    </script>
+
+
+    <h1>Pulse Data Chart</h1>
+    <div id="chart-container">
+        <!-- Placeholder for the chart -->
+        {{ chart|safe }}
+    </div>
+
+    <div id="disclaimer">
+      <p> <h4>Disclaimer: </h4> <i>Please note that the savings displayed on this website are -- STILL A WORK IN PROGRESS --<s>determined by following a specific calculation method. First, the average price of the day is multiplied by the usage in kilowatt-hours (KwH). The resulting value is then subtracted from the actual usage cost in Danish Krone (DKK). This final figure represents the savings obtained.</s></i></p>
+    </div>
+    <footer>
+      <p>©Copyright <a href="https://github.com/Ramlov/">Mathias Ramlov</a></p>
+    </footer>
+</body>
+</html>
